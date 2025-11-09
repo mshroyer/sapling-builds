@@ -20,7 +20,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o ~/rustup.sh && 
     sh ~/rustup.sh --profile minimal -y
 ENV PATH="$PATH:$HOME/.cargo/bin"
 
-ARG FILES_CACHEBUST=1
+ARG FILES_CACHEBUST=2
 COPY files/ /
 
 # fbthrift dependency, unavailable as EPEL 10 package
