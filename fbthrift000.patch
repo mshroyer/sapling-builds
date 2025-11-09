@@ -1,0 +1,13 @@
+diff --git a/build/fbcode_builder/getdeps/platform.py b/build/fbcode_builder/getdeps/platform.py
+index 5e4acdc44e..744bea275c 100644
+--- a/build/fbcode_builder/getdeps/platform.py
++++ b/build/fbcode_builder/getdeps/platform.py
+@@ -269,6 +269,6 @@ class HostType(object):
+             return None
+         if self.is_darwin():
+             return "homebrew"
+-        if self.distro in ("fedora", "centos", "centos_stream", "rocky"):
++        if self.distro in ("fedora", "centos", "centos_stream", "rocky", "alma"):
+             return "rpm"
+         if self.distro.startswith(("debian", "ubuntu", "pop!_os", "mint")):
+             return "deb"
