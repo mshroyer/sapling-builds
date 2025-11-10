@@ -1,7 +1,8 @@
 FROM almalinux:10
 
 # System dependencies
-RUN dnf groupinstall -y "Development Tools" && \
+RUN dnf groupinstall -y "Standard" && \
+    dnf groupinstall -y "Development Tools" && \
     dnf install -y python3-devel perl-FindBin perl-IPC-Cmd perl-Time-Piece \
         openssl-devel clang-devel && \
     dnf clean all && \
@@ -15,10 +16,9 @@ RUN dnf install -y 'dnf-command(config-manager)' && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
+# fbthrift dependency, unavailable as EPEL 10 package
 ARG files_fbthrift_cachebust=1
 COPY files_fbthrift/ /
-
-# fbthrift dependency, unavailable as EPEL 10 package
 ARG fbthrift_commit=main
 RUN /build-fbthrift.sh ${fbthrift_commit}
 
