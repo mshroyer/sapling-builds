@@ -24,7 +24,7 @@ ARG files_fbthrift_cachebust=1
 COPY files_fbthrift/ /
 
 # fbthrift dependency, unavailable as EPEL 10 package
-ARG fbthrift_commit=master
+ARG fbthrift_commit=main
 RUN /build-fbthrift.sh ${fbthrift_commit}
 
 # Cache initial clone of sapling repo
