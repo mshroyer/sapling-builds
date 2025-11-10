@@ -2,9 +2,16 @@
 
 set -e
 
+commit="$1"
+if [ -z "$commit" ]; then
+	echo "Usage: $0 <commit>" >&2
+	exit 1
+fi
+
 cd /
 git clone https://github.com/facebook/fbthrift.git
 cd fbthrift
+git checkout "$commit"
 
 # Make getdeps recognize AlmaLinux as an RPM system
 patch -p1 </patches/fbthrift000.patch
