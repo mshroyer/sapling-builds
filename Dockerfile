@@ -15,11 +15,6 @@ RUN dnf groupinstall -y "Standard" && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
-# Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o ~/rustup.sh && \
-    sh ~/rustup.sh --profile minimal -y
-ENV PATH="$PATH:$HOME/.cargo/bin"
-
 ARG files_fbthrift_cachebust=1
 COPY files_fbthrift/ /
 
@@ -27,8 +22,10 @@ COPY files_fbthrift/ /
 ARG fbthrift_commit=main
 RUN /build-fbthrift.sh ${fbthrift_commit}
 
-# Cache initial clone of sapling repo
-RUN git clone https://github.com/facebook/sapling.git
+# Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o ~/rustup.sh && \
+    sh ~/rustup.sh --profile minimal -y
+ENV PATH="$PATH:$HOME/.cargo/bin"
 
 # Keep Sapling patches and scripts separate so we can modify them without
 # losing the cached, time-consuming fbthrift build.
