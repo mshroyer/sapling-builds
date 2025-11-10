@@ -1,17 +1,17 @@
 FROM almalinux:10
 
-# EPEL
-RUN dnf install -y 'dnf-command(config-manager)' && \
-    dnf config-manager --set-enabled crb && \
-    dnf install -y epel-release && \
+# System dependencies
+RUN dnf groupinstall -y "Development Tools" && \
+    dnf install -y python3-devel perl-FindBin perl-IPC-Cmd perl-Time-Piece \
+        openssl-devel clang-devel && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
-# System dependencies
-RUN dnf groupinstall -y "Standard" && \
-    dnf groupinstall -y "Development Tools" && \
-    dnf install -y yarnpkg python3-devel perl-FindBin perl-IPC-Cmd perl-Time-Piece \
-        openssl-devel clang-devel && \
+# EPEL-based dependencies
+RUN dnf install -y 'dnf-command(config-manager)' && \
+    dnf config-manager --set-enabled crb && \
+    dnf install -y epel-release && \
+    dnf install -y yarnpkg && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
@@ -25,7 +25,6 @@ RUN /build-fbthrift.sh ${fbthrift_commit}
 # Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o ~/rustup.sh && \
     sh ~/rustup.sh --profile minimal -y
-ENV PATH="$PATH:$HOME/.cargo/bin"
 
 # Keep Sapling patches and scripts separate so we can modify them without
 # losing the cached, time-consuming fbthrift build.
