@@ -13,8 +13,9 @@ git clone https://github.com/facebook/fbthrift.git
 cd fbthrift
 git checkout "$commit"
 
-# Make getdeps recognize AlmaLinux as an RPM system
-patch -p1 </patches/fbthrift000.patch
+for patch in /patches/fbthrift*.patch; do
+	patch -p1 <"$patch"
+done
 
 ./build/fbcode_builder/getdeps.py --allow-system-packages build fbthrift
 

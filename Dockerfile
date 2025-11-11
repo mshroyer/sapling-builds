@@ -4,7 +4,7 @@ FROM almalinux:10
 RUN dnf groupinstall -y "Standard" && \
     dnf groupinstall -y "Development Tools" && \
     dnf install -y python3-devel perl-FindBin perl-IPC-Cmd perl-Time-Piece \
-        openssl-devel clang-devel && \
+        openssl-devel clang-devel rpmdevtools && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
@@ -31,5 +31,7 @@ ENV PATH="${PATH}:${HOME}/.cargo/bin"
 
 # Keep Sapling patches and scripts separate so we can modify them without
 # losing the cached, time-consuming fbthrift build.
-ARG files_sapling_cachebust=1
+ARG files_sapling_cachebust=2
 COPY files_sapling/ /
+
+ENTRYPOINT ["/build-sapling.sh"]

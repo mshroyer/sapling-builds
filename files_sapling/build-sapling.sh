@@ -2,9 +2,6 @@
 
 set -e
 
-PATH="$PATH:$HOME/.cargo/bin:/opt/fbthrift/bin"
-export PATH
-
 commit="$1"
 if [ -z "$commit" ]; then
 	commit=main
@@ -15,9 +12,14 @@ git clone https://github.com/facebook/sapling.git
 cd sapling
 git checkout "$commit"
 
-# Fix missing `anyhow` dependency
-patch -p1 </patches/sapling000.patch
+for patch in /patches/sapling*.patch; do
+	patch -p1 <"$patch"
+done
 
 cd eden/scm
-
 make oss
+
+if [ ! -d /out ]; then
+	mkdir /out
+fi
+/make_rpm.py --out /out
