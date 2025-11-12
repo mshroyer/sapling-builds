@@ -1,0 +1,12 @@
+diff --git a/thrift/compiler/ast/t_program.h b/thrift/compiler/ast/t_program.h
+index 6e676691eb..64cbaf2d38 100644
+--- a/thrift/compiler/ast/t_program.h
++++ b/thrift/compiler/ast/t_program.h
+@@ -16,6 +16,7 @@
+ 
+ #pragma once
+ 
++#include <algorithm>
+ #include <cassert>
+ #include <map>
+ #include <memory>
