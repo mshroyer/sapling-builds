@@ -50,7 +50,9 @@ find "$PREFIX" -type f | xargs -I{} strip {}
 
 cp -ar "$INSTALLED/fbthrift${PREFIX}/include" "$PREFIX/include"
 
-tar -cJf "/artifacts/fbthrift-$(date +%Y%m%d.%H%M%S).${HASH}.tar.xz" "$PREFIX"
+FILENAME="fbthrift-$(date +%Y%m%d.%H%M%S).${HASH}.tar.xz"
+tar -cJf "/artifacts/${FILENAME}" "$PREFIX"
+echo "$FILENAME" >/artifacts/fbthrift-buildstamp.txt
 
 # Don't cache the source in the docker image, saving about half a GB.
 cd /
