@@ -12,6 +12,10 @@ if [ ! -d /artifacts ]; then
 	exit 1
 fi
 
+# Ensure we can actually write artifacts before going through a long build.
+touch /artifacts/foo
+rm -f /artifacts/foo
+
 cd /
 if [ ! -d fbthrift ]; then
 	git clone https://github.com/facebook/fbthrift.git
