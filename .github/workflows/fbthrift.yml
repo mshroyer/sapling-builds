@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Install Docker
-        run: apt install docker.io
+        run: sudo apt install docker.io
 
       - name: Build fbthrift
         run: ./scripts/build-fbthrift.sh
