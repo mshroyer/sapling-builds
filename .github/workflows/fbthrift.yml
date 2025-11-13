@@ -1,0 +1,21 @@
+name: fbthrift
+on:
+  workflow_dispatch:
+
+jobs:
+  build_fbthrift:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Docker
+        run: apt install docker.io
+
+      - name: Build fbthrift
+        run: ./scripts/build-fbthrift.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: artifacts/x86_64/fbthrift-*.tar.xz
