@@ -27,6 +27,9 @@ for patch in /patches/sapling*.patch; do
 	patch -p1 <"$patch"
 done
 
+PATH="$PATH:$HOME/.cargo/bin"
+export PATH
+
 cd eden/scm
 make oss
 
