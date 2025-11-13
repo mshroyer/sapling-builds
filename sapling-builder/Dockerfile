@@ -17,10 +17,9 @@ RUN dnf install -y 'dnf-command(config-manager)' && \
     rm -rf /var/cache/dnf
 
 # fbthrift dependency, unavailable as EPEL 10 package
-ARG files_fbthrift_cachebust=1
-COPY files_fbthrift/ /
-ARG fbthrift_commit=main
-# RUN /build-fbthrift.sh ${fbthrift_commit}
+ARG files_cachebust=1
+COPY files/ /
+RUN /install-fbthrift.sh
 
 # # Rust
 # RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh && \
