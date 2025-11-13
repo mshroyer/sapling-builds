@@ -4,7 +4,11 @@ set -e
 
 commit="$1"
 if [ -z "$commit" ]; then
-	echo "Usage: $0 <commit>" >&2
+	commit="main"
+fi
+
+if [ ! -d /artifacts ]; then
+	echo "/artifacts/ not mounted!" >&2
 	exit 1
 fi
 
@@ -46,14 +50,12 @@ find "$PREFIX" -type f | xargs -I{} strip {}
 
 cp -ar "$INSTALLED/fbthrift${PREFIX}/include" "$PREFIX/include"
 
-if [ -d /artifacts ]; then
-	tar -cJf "/artifacts/fbthrift-$(date +%Y%m%d.%H%M%S).${HASH}.tar.xz" "$PREFIX"
-fi
+tar -cJf "/artifacts/fbthrift-$(date +%Y%m%d.%H%M%S).${HASH}.tar.xz" "$PREFIX"
 
-# # Don't cache the source in the docker image, saving about half a GB.
-# cd /
-# rm -rf /fbthrift
+# Don't cache the source in the docker image, saving about half a GB.
+cd /
+rm -rf /fbthrift
 
-# # I couldn't figure out how to change the output directory using getdeps, so
-# # just clean up caches from the tmp dir instead.
-# rm -rf "$FBCODE_BUILDER"
+# I couldn't figure out how to change the output directory using getdeps, so
+# just clean up caches from the tmp dir instead.
+rm -rf "$FBCODE_BUILDER"
