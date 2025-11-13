@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set SELinux context for artifacts
-        run: sudo chcon -R -u system_u -t container_file_t ./artifacts
-
       - name: Build fbthrift
         run: ./scripts/build-fbthrift.sh
 
