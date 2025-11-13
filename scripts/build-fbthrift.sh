@@ -2,12 +2,8 @@
 
 set -e
 
-PROJECT=$(cd "$(dirname "$0")/.." && pwd)
-cd "$PROJECT"
-
-if [ -z "$DOCKER" ]; then
-	DOCKER=podman
-fi
+SCRIPTS=$(cd "$(dirname "$0")" && pwd)
+. "$SCRIPTS/lib"
 
 BUILDER_IMAGE_ID="$(mktemp)"
 "$DOCKER" build --iidfile="$BUILDER_IMAGE_ID" -f fbthrift-builder/Dockerfile

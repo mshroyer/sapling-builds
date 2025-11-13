@@ -1,0 +1,19 @@
+#!/bin/sh
+
+PROJECT=$(cd "$(dirname "$0")/.." && pwd)
+cd "$PROJECT"
+
+if [ -z "$DOCKER" ]; then
+	DOCKER=podman
+fi
+
+if [ -x /usr/bin/chcon ]; then
+	sel_user="$(stat -c '%C' artifacts | cut -d: -f1)"
+	sel_type="$(stat -c '%C' artifacts | cut -d: -f3)"
+	if [ "$sel_user" != "system_u" ] || [ "$sel_type" != "container_file_t" ]; then
+		echo "Wrong SELinux context on the ./artifacts subdirectory!" >&2
+		echo "It may be inaccessible from containers." >&2
+		echo "Run \`sudo chcon -R -u system_u -t container_file_t ./artifacts\` and try again." >&2
+		exit 1
+	fi
+fi
