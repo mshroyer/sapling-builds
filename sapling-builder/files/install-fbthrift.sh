@@ -2,7 +2,7 @@
 
 set -e
 
-LATEST_FBTHRIFT="$(printf '%s\n' /artifacts/fbthrift-*.tar.xz | sort | tail -n1)"
+LATEST_FBTHRIFT="$(printf '%s\n' /artifacts/x86_64/fbthrift-*.el10.x86_64.tar.xz | sort | tail -n1)"
 if [ -z "$LATEST_FBTHRIFT" ]; then
 	echo "No fbthrift build found in artifacts/! Run scripts/build-fbthrift.sh first" >&2
 	exit 1
