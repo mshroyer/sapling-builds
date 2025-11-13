@@ -1,6 +1,6 @@
 Name: sapling
 Version: %{ver}
-Release: 1.%{rel}%{?dist}
+Release: %{rel}%{?dist}
 Summary: Sapling SCM
 License: GPLv2
 Group: Development/Tools
