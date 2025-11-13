@@ -49,7 +49,7 @@ find "$INSTALLED" -name '*.so.*' | xargs -I{} cp -a {} "$PREFIX/lib/"
 find "$PREFIX" -type f | xargs -I{} strip {}
 
 cp -ar "$INSTALLED/fbthrift${PREFIX}/include" "$PREFIX/include"
-cp /fbthrift/LICENSE
+cp /fbthrift/LICENSE "$PREFIX/"
 
 FILENAME="fbthrift-$(date +%Y%m%d.%H%M%S).${HASH}.tar.xz"
 tar -cJf "/artifacts/${FILENAME}" "$PREFIX"
