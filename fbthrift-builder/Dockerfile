@@ -20,5 +20,5 @@ RUN dnf install -y \
     dnf clean all
 
 ARG files_cachebust=1
-COPY files/fbthrift-builder/ /
-CMD ["/build-fbthrift.sh"]
+COPY files/ /
+CMD ["/run.sh"]
