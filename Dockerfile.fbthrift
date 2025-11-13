@@ -1,10 +1,23 @@
 FROM almalinux:10
 
-# System dependencies
-RUN dnf groupinstall -y "Development Tools" && \
-    dnf install -y openssl openssl-devel && \
-    dnf clean all && \
-    rm -rf /var/cache/dnf
+# Minimal build dependencies for fbthrift
+#
+# groupinstall "Development Tools" + openssl and openssl-devel would also
+# work, but we don't actually need all that.
+RUN dnf install -y \
+        automake \
+        binutils \
+        gcc-c++ \
+        git \
+        m4 \
+        openssl \
+        openssl-devel \
+        patch \
+        perl-File-Compare \
+        perl-File-Copy \
+        python3 \
+        && \
+    dnf clean all
 
 ARG files_fbthrift_cachebust=1
 COPY files_fbthrift/ /
