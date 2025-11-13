@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install Docker
-        run: sudo apt install docker.io
-
       - name: Build fbthrift
         run: ./scripts/build-fbthrift.sh
 
