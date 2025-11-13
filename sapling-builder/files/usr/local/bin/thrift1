@@ -3,7 +3,7 @@
 # thrift1 wrapper to ensure include paths needed by the sapling build are
 # specified.
 
+PREFIX="/opt/fbthrift"
 GETDEPS_INSTALLED="/tmp/fbcode_builder_getdeps-ZfbthriftZbuildZfbcode_builder-root/installed"
 
-exec "$GETDEPS_INSTALLED/fbthrift/bin/thrift1" \
-     -I "$GETDEPS_INSTALLED/fbthrift/include" $@
+exec "${PREFIX}/bin/thrift1" -I "${PREFIX}/include" $@
