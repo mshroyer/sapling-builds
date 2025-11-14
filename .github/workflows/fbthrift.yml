@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  fbthrift-x86_64-el10:
+  fbthrift-el10-x86_64:
     runs-on: ubuntu-latest
 
     steps:
