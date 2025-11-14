@@ -15,5 +15,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build
+          name: x86_64
           path: artifacts/x86_64/fbthrift-*.tar.xz
