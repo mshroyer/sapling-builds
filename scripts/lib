@@ -11,3 +11,39 @@ else
 	echo "No podman or docker binary found!" >&2
 	exit 1
 fi
+
+fail_with_repo_help() {
+	echo "Set SAPLING_BUILDS_REPO to e.g. 'mshroyer/sapling-builds'" >&2
+	exit 2
+}
+
+parse_github_repo() {
+	repo="${1#https://github.com/}"
+	if [ "$repo" = "$default_path" ]; then
+		echo "Unable to identify a default GitHub repo" >&2
+		fail_with_repo_help
+	fi
+	repo="${repo%.git}"
+	echo "$repo"
+}
+
+identify_github_repo() {
+	if [ -n "$SAPLING_BUILDS_REPO" ]; then
+		echo "$SAPLING_BUILDS_REPO"
+	elif [ -d .sl ]; then
+		default_path="$(sl config paths.default)" || {
+			echo "Unable to use sapling to identify a default GitHub repo" >&2
+			fail_with_repo_help
+		}
+		parse_github_repo "$default_path"
+	elif [ -d .git ]; then
+		origin="$(git remote -v | awk '{ if ( $1 == "origin" ) { print $2; exit; } }')" || {
+			echo "Unable to use git to identify a default GitHub repo" >&2
+			fail_with_repo_help
+		}
+		parse_github_repo "$origin"
+	else
+		echo "Unable to determine a default GitHub repo" >&2
+		fail_with_repo_help
+	fi
+}
