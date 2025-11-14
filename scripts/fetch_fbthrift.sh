@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+SCRIPTS=$(cd "$(dirname "$0")" && pwd)
+. "$SCRIPTS/lib"
+
+# Identify the GitHub repo name based on the default path or origin of our
+# sapling or git clone.
+REPO="$(identify_github_repo)"
+WORKFLOW_ID="fbthrift.yml"
+
+run_id="$(gh api "repos/${REPO}/actions/runs?workflow_id=${WORKFLOW_ID}&status=success" \
+	     --paginate -q \
+	     '.workflow_runs | sort_by(.created_at) | reverse | .[0] | .id')"
+
+echo "Fetching artifacts from ${WORKFLOW_ID} run ${run_id}"
+
+gh run download "$run_id" --repo "$REPO" --dir ./artifacts
