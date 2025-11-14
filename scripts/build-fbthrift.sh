@@ -12,5 +12,5 @@ rm -f "$BUILDER_IMAGE_ID"
 
 TESTER_IMAGE_ID="$(mktemp)"
 "$DOCKER" build --iidfile="$TESTER_IMAGE_ID" -f fbthrift-tester/Dockerfile
-"$DOCKER" run -v ./artifacts:/artifacts:ro,z "$(cat "$TESTER_IMAGE_ID")"
+"$DOCKER" run -v ./artifacts:/artifacts:z,ro "$(cat "$TESTER_IMAGE_ID")"
 rm -f "$TESTER_IMAGE_ID"
