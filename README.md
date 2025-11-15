@@ -29,6 +29,18 @@ This is a set of docker/podman containers to build and smoke-test the fbthrift d
 - Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
 - Currently assumes an x86\_64 docker/podman host, and only supports x86\_64 builds.  Doesn't yet work with Docker Desktop on my arm Mac.
 
+## Troubleshooting
+
+### SSL errors with Docker Desktop on macOS
+
+If you're seeing errors from dnf like:
+
+```
+Error: Failed to download metadata for repo 'epel': Cannot prepare internal mirrorlist: Curl error (35): SSL connect error for https://mirrors.fedoraproject.org/metalink?repo=epel-z-10&arch=x86_64 [OpenSSL/3.2.2: error:06880006:asn1 encoding routines::EVP lib]
+```
+
+this is probably a [known Apple Rosetta emulation issue](https://github.com/containers/podman/issues/18301).  Try configuring Docker Desktop to use its beta Docker VMM emulation mode instead of Rosetta.
+
 ## FAQ
 
 ### Why not a source RPM?
