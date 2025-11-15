@@ -18,8 +18,10 @@ try_sl() {
 }
 
 dnf install -y "$RPM"
+
 try_sl --version
 try_sl clone https://github.com/mshroyer/sapling-builds
 cd sapling-builds
 try_sl web
+sleep 5
 try_sl web --kill
