@@ -1,18 +1,15 @@
 FROM almalinux:10
 
-# System dependencies
-RUN dnf groupinstall -y "Standard" && \
-    dnf groupinstall -y "Development Tools" && \
-    dnf install -y python3-devel perl-FindBin perl-IPC-Cmd perl-Time-Piece \
-        openssl-devel clang-devel rpmdevtools && \
-    dnf clean all
+# Base system dependencies
+RUN dnf groupinstall -y "Development Tools" && \
+    dnf install -y clang-devel perl-FindBin perl-IPC-Cmd perl-Time-Piece \
+        python3-devel python3-setuptools rpmdevtools
 
-# EPEL-based dependencies
+# EPEL dependencies
 RUN dnf install -y 'dnf-command(config-manager)' && \
     dnf config-manager --set-enabled crb && \
     dnf install -y epel-release && \
-    dnf install -y yarnpkg && \
-    dnf clean all
+    dnf install -y yarnpkg
 
 # Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh && \

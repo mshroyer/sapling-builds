@@ -15,9 +15,7 @@ RUN dnf install -y \
         patch \
         perl-File-Compare \
         perl-File-Copy \
-        python3 \
-        && \
-    dnf clean all
+        python3
 
 ARG files_cachebust=1
 COPY files/ /
