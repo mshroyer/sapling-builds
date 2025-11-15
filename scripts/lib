@@ -4,6 +4,9 @@ PROJECT=$(cd "$(dirname "$0")/.." && pwd)
 cd "$PROJECT"
 
 if docker -v >/dev/null 2>&1; then
+	DOCKER_DEFAULT_PLATFORM=linux/amd64
+	export DOCKER_DEFAULT_PLATFORM
+
 	DOCKER=docker
 elif podman -v >/dev/null 2>&1; then
 	DOCKER=podman
