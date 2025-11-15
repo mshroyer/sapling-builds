@@ -2,6 +2,9 @@ name: sapling
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   sapling-el10-x86_64:
     runs-on: ubuntu-latest
