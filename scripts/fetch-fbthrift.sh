@@ -10,9 +10,9 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 REPO="$(identify_github_repo)"
 WORKFLOW_ID="fbthrift.yml"
 
-run_id="$(gh api "repos/${REPO}/actions/runs?workflow_id=${WORKFLOW_ID}&status=success" \
+run_id="$(gh api "repos/${REPO}/actions/runs" \
 	     --paginate -q \
-	     '.workflow_runs | sort_by(.created_at) | reverse | .[0] | .id')"
+	     '.workflow_runs | sort_by(.created_at) | reverse | .[] | select(.name=="fbthrift") | select(.conclusion=="success") | .id')"
 
 echo "Fetching artifacts from ${WORKFLOW_ID} run ${run_id}"
 echo "https://github.com/${REPO}/actions/runs/${run_id}/"
