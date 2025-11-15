@@ -17,9 +17,10 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh 
     rm /tmp/rustup.sh
 ENV PATH="${PATH}:/root/.cargo/bin"
 
-# fbthrift dependency, unavailable as EPEL 10 package
 ARG files_cachebust=1
 COPY files/ /
+
+# fbthrift dependency, unavailable as EPEL 10 package
 RUN tar -C / --exclude=LICENSE -xJf /fbthrift.tar.xz
 RUN rm -f /fbthrift.tar.xz
 

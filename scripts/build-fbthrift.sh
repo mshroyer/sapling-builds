@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Build an fbthrift tarball for AlmaLinux 10 x86_64.
+#
+# Builds from main or, if specified, a specific fbthrift commit.
+
 set -e
 
 commit="$1"
