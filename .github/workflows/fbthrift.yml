@@ -9,13 +9,12 @@ jobs:
   fbthrift-el10-x86_64:
     runs-on: ubuntu-latest
 
-    env:
-      GH_TOKEN: ${{ github.token }}
-
     steps:
       - uses: actions/checkout@v5
 
       - name: Build fbthrift
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: ./scripts/build-fbthrift.sh
 
       - name: Upload artifacts
