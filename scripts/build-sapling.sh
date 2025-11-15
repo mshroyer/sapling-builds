@@ -16,12 +16,7 @@ echo "Using fbthrift from ${LATEST_FBTHRIFT}"
 rm -f sapling-builder/files/fbthrift.tar.xz
 ln "$LATEST_FBTHRIFT" sapling-builder/files/fbthrift.tar.xz
 
-BUILDER_IMAGE_ID="$(mktemp)"
-"$DOCKER" build --iidfile="$BUILDER_IMAGE_ID" ./sapling-builder
-"$DOCKER" run -v ./artifacts:/artifacts:z "$(cat "$BUILDER_IMAGE_ID")"
-rm -f "$BUILDER_IMAGE_ID"
-
-TESTER_IMAGE_ID="$(mktemp)"
-"$DOCKER" build --iidfile="$TESTER_IMAGE_ID" ./sapling-tester
-"$DOCKER" run -v ./artifacts:/artifacts:z,ro "$(cat "$TESTER_IMAGE_ID")"
-rm -f "$TESTER_IMAGE_ID"
+IMAGE_ID="$(mktemp)"
+"$DOCKER" build --iidfile="$IMAGE_ID" ./sapling-builder
+"$DOCKER" run -v ./artifacts:/artifacts:z "$(cat "$IMAGE_ID")"
+rm -f "$IMAGE_ID"

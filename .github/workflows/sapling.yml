@@ -17,8 +17,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: ./scripts/fetch-fbthrift.sh
 
-      - name: Build sapling
+      - name: Build sapling RPM
         run: ./scripts/build-sapling.sh
+
+      - name: Test sapling RPM
+        run: ./scripts/test-sapling.sh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
