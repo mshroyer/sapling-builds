@@ -3,10 +3,10 @@
 PROJECT=$(cd "$(dirname "$0")/.." && pwd)
 cd "$PROJECT"
 
-if [ -x /usr/bin/docker ]; then
-	DOCKER=/usr/bin/docker
-elif [ -x /usr/bin/podman ]; then
-	DOCKER=/usr/bin/podman
+if docker -v >/dev/null; then
+	DOCKER=docker
+elif podman -v >/dev/null; then
+	DOCKER=podman
 else
 	echo "No docker or podman binary found!" >&2
 	exit 1
