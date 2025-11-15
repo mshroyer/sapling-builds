@@ -18,7 +18,9 @@ to build an fbthrift artifact, then Sapling itself.  Subsequent Sapling builds c
 
 ## Details
 
-Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for installing Sapling from source.  But these aren't trivial on AlmaLinux 10, requiring specific system dependencies, some patches, and a build of [fbthrift](https://github.com/facebook/fbthrift) as a prerequisite.  In turn, fbthrift itself requires some finagling to build.
+There are official Sapling [releases](https://github.com/facebook/sapling/releases) for macOS, Windows, and Ubuntu, but not for AlmaLinux 10 or similar distributions.  Additionally, the official releases are updated infrequently, and currently out-of-date at the time of writing.
+
+Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for building Sapling from source.  But these aren't trivial on AlmaLinux 10, requiring specific system dependencies, some patches, and a build of [fbthrift](https://github.com/facebook/fbthrift) as a prerequisite.  In turn, fbthrift itself requires some finagling to build.
 
 This is a set of docker/podman containers to build and smoke-test the fbthrift dependency and then Sapling itself.  Those are done as two distinct steps so that the fbthrift build (very time-consuming and rather flaky) can be done once in order to support multiple Sapling builds (less slow and fairly reliable).
 
@@ -27,7 +29,6 @@ This is a set of docker/podman containers to build and smoke-test the fbthrift d
 - As far as I know, there isn't a working test suite for the public version of Sapling.  This means the only testing this build does is of the "try installing the RPM and seeing if basic commands work" variety.  While Meta's main branch should generally work, it would still be possible for a bug to appear in a "successful" build here, which otherwise would have failed against the internal test suite.
 - The fbthrift build is unreliable.  If building locally, you might instead want to fetch the latest successful build from my GitHub Actions by running `fetch-fbthrift.sh` instead of `build-fbthrift.sh`.
 - Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
-- Currently assumes an x86\_64 docker/podman host, and only supports x86\_64 builds.  Doesn't yet work with Docker Desktop on my arm Mac.
 
 ## Troubleshooting
 
