@@ -18,7 +18,7 @@ to build an fbthrift artifact, then Sapling itself.  Subsequent Sapling builds c
 
 ## Details
 
-There are official Sapling [releases](https://github.com/facebook/sapling/releases) for macOS, Windows, and Ubuntu, but not for AlmaLinux 10 or similar distributions.  Additionally, the official releases are updated infrequently, and currently out-of-date at the time of writing.
+There are official Sapling [releases](https://github.com/facebook/sapling/releases) for macOS, Windows, and Ubuntu, but not for AlmaLinux 10 or similar distributions.  Additionally, the official releases are updated infrequently: At the time of writing, the current release is about six months old.
 
 Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for building Sapling from source.  But these aren't trivial on AlmaLinux 10, requiring specific system dependencies, some patches, and a build of [fbthrift](https://github.com/facebook/fbthrift) as a prerequisite.  In turn, fbthrift itself requires some finagling to build.
 
