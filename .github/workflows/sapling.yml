@@ -1,0 +1,22 @@
+name: sapling
+on:
+  workflow_dispatch:
+
+jobs:
+  sapling-el10-x86_64:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Fetch fbthrift
+        run: ./scripts/fetch-fbthrift.sh
+
+      - name: Build sapling
+        run: ./scripts/build-sapling.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: x86_64
+          path: artifacts/x86_64/sapling-*.rpm
