@@ -2,7 +2,7 @@
 
 set -e
 
-FILENAME="$(cat /artifacts/fbthrift-buildstamp.txt)"
+FILENAME="$(cat /artifacts/x86_64/fbthrift-buildstamp.el10.x86_64.txt)"
 TARBALL="/artifacts/${FILENAME}"
 echo "Checking fbthrift build: ${TARBALL}"
 tar -C / --exclude=LICENSE -xJf "$TARBALL"
