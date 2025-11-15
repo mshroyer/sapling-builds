@@ -2,8 +2,12 @@
 
 set -e
 
-FILENAME="$(cat /artifacts/x86_64/fbthrift-buildstamp.el10.x86_64.txt)"
-TARBALL="/artifacts/${FILENAME}"
+TARBALL="$(printf '%s\n' /artifacts/x86_64/fbthrift-*.el10.x86_64.tar.xz | sort | tail -n1)"
+if [ ! -f "$TARBALL" ]; then
+	echo "No fbthrift build found in artifacts/!" >&2
+	exit 1
+fi
+
 echo "Checking fbthrift build: ${TARBALL}"
 tar -C / --exclude=LICENSE -xJf "$TARBALL"
 /opt/fbthrift/bin/thrift1 --help >/dev/null

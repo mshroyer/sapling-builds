@@ -60,7 +60,6 @@ if [ ! -d /artifacts/x86_64 ]; then
 	mkdir /artifacts/x86_64
 fi
 tar -cJf "/artifacts/${FILENAME}" "$PREFIX"
-echo "$FILENAME" >/artifacts/x86_64/fbthrift-buildstamp.el10.x86_64.txt
 
 # Don't cache the source in the docker image, saving about half a GB.
 cd /
