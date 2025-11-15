@@ -23,5 +23,5 @@ try_sl --version
 try_sl clone https://github.com/mshroyer/sapling-builds
 cd sapling-builds
 try_sl web
-sleep 3
+sleep 6
 try_sl web --kill
