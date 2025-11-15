@@ -11,10 +11,13 @@ Running the build locally requires either docker or podman.  Clone the repo and 
 
 ```sh
 ./scripts/build-fbthrift.sh
+./scripts/test-fbthrift.sh
+
 ./scripts/build-sapling.sh
+./scripts/test-sapling.sh
 ```
 
-to build an fbthrift artifact and then Sapling itself.  Subsequent Sapling builds can skip re-building fbthrift.
+to build an fbthrift artifact and then Sapling itself.  Subsequent Sapling builds can skip re-building fbthrift, as long as you have a relatively recent working version.
 
 ## Details
 
@@ -22,7 +25,7 @@ There are official Sapling [releases](https://github.com/facebook/sapling/releas
 
 Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for building Sapling from source.  But these aren't trivial to follow on AlmaLinux 10, requiring specific system dependencies, some patches, and a build of [fbthrift](https://github.com/facebook/fbthrift) as a prerequisite.  In turn, fbthrift itself requires similar finagling to build.
 
-This repo contains a set of docker/podman containers that build the fbthrift dependency and smoke test it within a fresh container, and then does the same with Sapling itself.  Those are run as two distinct steps so that the fbthrift build (very time-consuming and sometimes flaky) can be done once in order to support multiple builds of Sapling (not as slow, and fairly reliable).  For local builds that means keeping an fbthrift tarball in your artifacts directory; for GitHub actions it means the sapling workflow downloads artifacts from the most recent successful fbthrift run.
+This repo contains a set of scripted docker/podman containers that build the fbthrift dependency and smoke test it within a fresh container, and then does the same with Sapling itself.  Those are run as two distinct steps so that the fbthrift build (very time-consuming and sometimes flaky) can be done once in order to support multiple builds of Sapling (not as slow, and fairly reliable).  For local builds that means keeping an fbthrift tarball in your artifacts directory; for GitHub actions it means the sapling workflow downloads artifacts from the most recent successful fbthrift run.
 
 ## Caveats
 
