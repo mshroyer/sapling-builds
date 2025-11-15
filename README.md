@@ -5,7 +5,7 @@ AlmaLinux 10.
 
 ## Using
 
-Pre-built RPMs are available as artifacts on successful [fbthrift workflow](https://github.com/mshroyer/sapling-builds/actions?query=workflow%3Asapling+is%3Asuccess) runs.
+Pre-built RPMs are available as artifacts on successful [sapling workflow](https://github.com/mshroyer/sapling-builds/actions?query=workflow%3Asapling) runs.
 
 Running the build locally requires docker or podman.  Clone the repo and run:
 
