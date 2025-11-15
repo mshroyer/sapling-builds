@@ -6,6 +6,8 @@ License: GPLv2
 Group: Development/Tools
 URL: https://github.com/mshroyer/sapling-builds
 BuildArch: x86_64
+Requires: git
+Requires: nodejs
 
 %description
 Unofficial build of the Sapling source control manager.
