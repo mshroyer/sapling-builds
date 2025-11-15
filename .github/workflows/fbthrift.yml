@@ -9,6 +9,9 @@ jobs:
   fbthrift-el10-x86_64:
     runs-on: ubuntu-latest
 
+    env:
+      GH_TOKEN: ${{ github.token }}
+
     steps:
       - uses: actions/checkout@v5
 
