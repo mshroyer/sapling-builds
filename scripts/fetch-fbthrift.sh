@@ -12,7 +12,14 @@ WORKFLOW_ID="fbthrift.yml"
 
 run_id="$(gh api "repos/${REPO}/actions/runs" \
 	     --paginate -q \
-	     '.workflow_runs | sort_by(.created_at) | reverse | .[] | select(.name=="fbthrift") | select(.conclusion=="success") | .id')"
+	     '[ .workflow_runs
+	     		     | sort_by(.created_at)
+			     | reverse
+			     | .[]
+			     | select(.name=="fbthrift")
+			     | select(.conclusion=="success") ]
+			     | .[0]
+			     | .id')"
 
 echo "Fetching artifacts from ${WORKFLOW_ID} run ${run_id}"
 echo "https://github.com/${REPO}/actions/runs/${run_id}/"
