@@ -1,0 +1,12 @@
+diff --git a/quic/server/handshake/ServerHandshake.cpp b/quic/server/handshake/ServerHandshake.cpp
+index 964707a2d..e7b85d2b6 100644
+--- a/quic/server/handshake/ServerHandshake.cpp
++++ b/quic/server/handshake/ServerHandshake.cpp
+@@ -7,6 +7,7 @@
+ 
+ #include <quic/server/handshake/ServerHandshake.h>
+ 
++#include <boost/variant/static_visitor.hpp>
+ #include <quic/fizz/handshake/FizzBridge.h>
+ #include <quic/state/QuicStreamFunctions.h>
+ #include <cstdint>

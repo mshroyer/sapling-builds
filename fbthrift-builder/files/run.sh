@@ -31,6 +31,9 @@ for patch in /patches/fbthrift*.patch; do
 	patch -p1 <"$patch"
 done
 
+# Additional patches we've added to getdeps manifests.
+cp /patches/getdeps/*.patch /fbthrift/build/fbcode_builder/patches/
+
 PREFIX="/opt/fbthrift"
 FBCODE_BUILDER_ROOT="/tmp/fbcode_builder_getdeps-ZfbthriftZbuildZfbcode_builder-root"
 INSTALLED="$FBCODE_BUILDER_ROOT/installed"
