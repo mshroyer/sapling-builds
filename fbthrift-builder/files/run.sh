@@ -60,11 +60,3 @@ if [ ! -d /artifacts/x86_64 ]; then
 	mkdir /artifacts/x86_64
 fi
 tar -cJf "/artifacts/${FILENAME}" "$PREFIX"
-
-# Don't cache the source in the docker image, saving about half a GB.
-cd /
-rm -rf /fbthrift
-
-# I couldn't figure out how to change the output directory using getdeps, so
-# just clean up caches from the tmp dir instead.
-rm -rf "$FBCODE_BUILDER"
