@@ -1,0 +1,30 @@
+diff --git a/build/fbcode_builder/manifests/mvfst b/build/fbcode_builder/manifests/mvfst
+index c2a797be23..2a3ee0eefb 100644
+--- a/build/fbcode_builder/manifests/mvfst
++++ b/build/fbcode_builder/manifests/mvfst
+@@ -10,6 +10,7 @@ repo_url = https://github.com/facebook/mvfst.git
+ [build]
+ builder = cmake
+ subdir = .
++patchfile = mvfst.patch
+ 
+ [cmake.defines.test=on]
+ BUILD_TESTS = ON
+diff --git a/build/fbcode_builder/patches/mvfst.patch b/build/fbcode_builder/patches/mvfst.patch
+new file mode 100644
+index 0000000000..8c57ac8f68
+--- /dev/null
++++ b/build/fbcode_builder/patches/mvfst.patch
+@@ -0,0 +1,12 @@
++diff --git a/quic/server/handshake/ServerHandshake.cpp b/quic/server/handshake/ServerHandshake.cpp
++index 964707a2d..e7b85d2b6 100644
++--- a/quic/server/handshake/ServerHandshake.cpp
+++++ b/quic/server/handshake/ServerHandshake.cpp
++@@ -7,6 +7,7 @@
++ 
++ #include <quic/server/handshake/ServerHandshake.h>
++ 
+++#include <boost/variant/static_visitor.hpp>
++ #include <quic/fizz/handshake/FizzBridge.h>
++ #include <quic/state/QuicStreamFunctions.h>
++ #include <cstdint>
