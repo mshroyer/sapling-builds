@@ -25,8 +25,15 @@ jobs:
       - name: Test sapling RPM
         run: ./scripts/test-sapling.sh
 
+      - name: Get artifact name
+        id: artifact_name
+        run: |
+          name="$(basename "$(find /artifacts -name '*.rpm' | head -n1)")"
+          name="${name%.rpm}"
+          echo "name=$NAME" >>"$GITHUB_OUTPUT"
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: x86_64
+          name: ${{ steps.artifact_name.outputs.name }}
           path: artifacts/x86_64/sapling-*.rpm
