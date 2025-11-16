@@ -1,0 +1,20 @@
+name: test
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-passing-output:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set something
+        id: set_something
+        run: |
+          echo "name=foobar" >>"$GITHUB_OUTPUT"
+
+      - name: Use output
+        run: |
+          echo "Got output: ${{ steps.set_something.outputs.name }}"
