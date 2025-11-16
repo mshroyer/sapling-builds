@@ -81,7 +81,7 @@ def main():
 
     if args.out:
         print(f"Copying output to {args.out}")
-        shutil.copytree(RPMBUILD / "RPMS", args.out, dirs_exist_ok=True)
+        shutil.copytree(RPMBUILD / "RPMS" / "x86_64", args.out, dirs_exist_ok=True)
 
 
 if __name__ == "__main__":
