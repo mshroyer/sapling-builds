@@ -13,7 +13,7 @@ WORKFLOW_ID="fbthrift.yml"
 run_id="$(gh api "repos/${REPO}/actions/runs" \
 	     --paginate -q \
 	     '[ .workflow_runs
-	     		     | sort_by(.created_at)
+			     | sort_by(.created_at)
 			     | reverse
 			     | .[]
 			     | select(.name=="fbthrift")
