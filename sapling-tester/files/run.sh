@@ -2,7 +2,7 @@
 
 set -e
 
-RPM="$(printf '%s\n' /artifacts/x86_64/sapling-*.el10.x86_64.rpm | sort | tail -n1)"
+RPM="$(printf '%s\n' /artifacts/sapling-*.el10.x86_64.rpm | sort | tail -n1)"
 if [ ! -f "$RPM" ]; then
 	echo "No sapling build found in artifacts/!" >&2
 	exit 1
