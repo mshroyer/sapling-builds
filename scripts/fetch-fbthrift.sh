@@ -24,4 +24,11 @@ run_id="$(gh api "repos/${REPO}/actions/runs" \
 echo "Fetching artifacts from ${WORKFLOW_ID} run ${run_id}"
 echo "https://github.com/${REPO}/actions/runs/${run_id}/"
 
-gh run download "$run_id" --repo "$REPO" --dir ./artifacts
+tempdir="$(mktemp -d)"
+cleanup_tempdir() {
+	rm -rf "$tempdir"
+}
+trap cleanup_tempdir INT TERM EXIT
+
+gh run download "$run_id" --repo "$REPO" --dir "$tempdir"
+find "$tempdir" -type f | xargs -I{} cp {} ./artifacts/

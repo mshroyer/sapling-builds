@@ -58,8 +58,5 @@ find "$PREFIX" -type f | xargs -I{} strip {}
 cp -ar "$INSTALLED/fbthrift${PREFIX}/include" "$PREFIX/include"
 cp /fbthrift/LICENSE "$PREFIX/"
 
-FILENAME="x86_64/fbthrift-$(date +%Y%m%d.%H%M%S).git${HASH}.el10.x86_64.tar.xz"
-if [ ! -d /artifacts/x86_64 ]; then
-	mkdir /artifacts/x86_64
-fi
+FILENAME="fbthrift-$(date +%Y%m%d.%H%M%S).git${HASH}.el10.x86_64.tar.xz"
 tar -cJf "/artifacts/${FILENAME}" "$PREFIX"

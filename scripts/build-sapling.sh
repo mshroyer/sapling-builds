@@ -20,7 +20,7 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 # Identify the latest fbthrift tarball in the artifacts directory.  This could
 # be either one that was built locally using build-fbthrift.sh, or an artifact
 # downloaded from GitHub with fetch-fbthrift.sh.
-LATEST_FBTHRIFT="$(printf '%s\n' ./artifacts/x86_64/fbthrift-*.el10.x86_64.tar.xz | sort | tail -n1)"
+LATEST_FBTHRIFT="$(printf '%s\n' ./artifacts/fbthrift-*.el10.x86_64.tar.xz | sort | tail -n1)"
 if [ ! -f "$LATEST_FBTHRIFT" ]; then
 	echo "No fbthrift build found in ./artifacts/ ! Run scripts/build-fbthrift.sh first" >&2
 	exit 1
