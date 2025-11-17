@@ -15,7 +15,7 @@ jobs:
         run: |
           name="$(basename "$(find /usr/lib -name 'netifaces.*.so' | head -n1)")"
           name="${name%.rpm}"
-          echo "name=$name >>"$GITHUB_OUTPUT"
+          echo "name=$name" >>"$GITHUB_OUTPUT"
 
       - name: Use output
         run: |
