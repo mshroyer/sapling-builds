@@ -16,7 +16,7 @@ import subprocess
 from typing import Tuple
 
 
-VERSION_PATTERN = re.compile(r"Sapling (\d+\.\d+\.\d+)_(\d+)-(\d+)-h(.+)")
+VERSION_PATTERN = re.compile(r"Sapling (.*)_(\d+)-(\d+)-h(.+)")
 RPMBUILD = Path(os.environ["HOME"]) / "rpmbuild"
 
 
