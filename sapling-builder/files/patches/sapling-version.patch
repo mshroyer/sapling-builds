@@ -20,7 +20,7 @@ index b81a818ff99..b3e9751f06e 100644
      # Mercurial, so prepend with 4.4.2.
      # ex. 4.4.2_20180105_214829_58fda95a0202
 -    return "_".join(["4.4.2"] + out.split())
-+    return "_".join(["0.2"] + out.split())
++    return ".".join(["0.2"] + out.split())
  
  
  if not os.path.isdir(builddir):
