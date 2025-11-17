@@ -1,6 +1,8 @@
 name: fbthrift
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "10 16 * * 1,4"
 
 permissions:
   contents: read
