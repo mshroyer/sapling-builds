@@ -26,6 +26,8 @@ jobs:
       - name: Get artifact name
         id: artifact_name
         run: |
+          set -e
+
           name="$(basename "$(find ./artifacts -name '*.rpm' | head -n1)")"
           name="${name%.rpm}"
           echo "name=$name" >>"$GITHUB_OUTPUT"
