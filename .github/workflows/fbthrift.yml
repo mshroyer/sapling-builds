@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.artifact_name.outputs.name }}
-          path: artifacts/x86_64/fbthrift-*.tar.xz
+          path: artifacts/fbthrift-*.tar.xz
