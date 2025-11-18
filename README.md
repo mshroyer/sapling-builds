@@ -1,3 +1,6 @@
+[![sapling](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml)
+[![fbthrift](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml)
+
 # Sapling Builds for Linux
 
 Unofficial (and currently experimental) scripts and workflows for building [Sapling](https://sapling-scm.com), targeting
