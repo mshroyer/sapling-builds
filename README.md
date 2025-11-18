@@ -55,7 +55,9 @@ Both Sapling's and fbthrift's builds are non-hermetic: They fetch yarn packages,
 
 ## License
 
-The scripts, Dockerfiles, and so on in this repo are provided under the MIT license:
+The Sapling builds themselves are licensed under GPLv2.
+
+The scripts, Dockerfiles, other contents of this repo are provided under the MIT license:
 
 ```
 Copyright (c) 2025 Mark Shroyer
@@ -78,5 +80,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-
-The Sapling builds themselves are licensed under GPLv2.
