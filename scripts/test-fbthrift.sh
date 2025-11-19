@@ -8,5 +8,5 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 
 IMAGE_ID="$(mktemp)"
 "$DOCKER" build --iidfile="$IMAGE_ID" ./fbthrift-tester
-"$DOCKER" run -v ./artifacts:/artifacts:z,ro "$(cat "$IMAGE_ID")"
+"$DOCKER" run -v ./artifacts:/artifacts:z,ro --rm "$(cat "$IMAGE_ID")"
 rm -f "$IMAGE_ID"

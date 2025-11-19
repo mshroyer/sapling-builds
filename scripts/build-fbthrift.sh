@@ -16,5 +16,5 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 
 IMAGE_ID="$(mktemp)"
 "$DOCKER" build --iidfile="$IMAGE_ID" ./fbthrift-builder
-"$DOCKER" run -v ./artifacts:/artifacts:z "$(cat "$IMAGE_ID")" /run.sh "$commit"
+"$DOCKER" run -v ./artifacts:/artifacts:z --rm "$(cat "$IMAGE_ID")" /run.sh "$commit"
 rm -f "$IMAGE_ID"
