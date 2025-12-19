@@ -42,6 +42,7 @@ THRIFT1="$INSTALLED/fbthrift${PREFIX}/bin/thrift1"
 if [ ! -f "$THRIFT1" ]; then
 	./build/fbcode_builder/getdeps.py \
 		--allow-system-packages build \
+		--extra-cmake-defines='{"enable_tests": "OFF"}' \
 		--src-dir=. fbthrift \
 		--project-install-prefix "fbthrift:$PREFIX"
 fi
