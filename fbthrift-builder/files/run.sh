@@ -32,7 +32,11 @@ for patch in /patches/fbthrift*.patch; do
 done
 
 # Additional patches we've added to getdeps manifests.
-cp /patches/getdeps/*.patch /fbthrift/build/fbcode_builder/patches/
+for p in /patches/getdeps/*.patch; do
+	if [ -f "$p" ]; then
+		cp "$p" /fbthrift/build/fbcode_builder/patches/
+	fi
+done
 
 PREFIX="/opt/fbthrift"
 FBCODE_BUILDER_ROOT="/tmp/fbcode_builder_getdeps-ZfbthriftZbuildZfbcode_builder-root"
