@@ -35,6 +35,12 @@ This repo provides a set of scripted docker/podman containers that build the fbt
 - To my understanding, there isn't a working test suite for the public version of Sapling.  So the only testing this build does is of the "try installing the RPM and seeing if basic commands work" variety.  While Meta's main branch should generally work, it would still be possible for a bug to show up in a "successful" build here, which otherwise would have failed against the internal test suite.
 - Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
 
+## The churn
+
+[This Google Sheet](https://docs.google.com/spreadsheets/d/1EQYsPPTVHO4tZdhJcjCAGfNV18xw_c9bFjFEdGXgiLs/edit?usp=sharing) tracks the effort involved in keeping fbthrift's and sapling's builds green, in light of churn in the upstream sources.
+
+Neither of the builds seem to be flaky, but they do break occasionally.  Typical problems include missing C++ includes or Rust dependencies that need to be patched in, or old patches becoming obsolete as problems are eventually fixed upstream.
+
 ## Troubleshooting
 
 ### SSL errors with Docker Desktop on macOS
