@@ -27,7 +27,7 @@ This repo provides a set of scripted docker/podman containers that build Sapling
 
 ## On fbthrift
 
-Before facebook/sapling@3255f860ffee22975e37278475955a8ba6f398c6, building Sapling required a prexisting thrift1 binary from facebook/fbthrift to be available on the `$PATH`.  As of 2026-01-12 it seems this dependency can be safely removed, which makes the entire fbthrift workflow obsolete.
+Before [a commit on December 1st](https://github.com/facebook/sapling/commit/3255f860ffee22975e37278475955a8ba6f398c6), building Sapling required a prexisting thrift1 binary from facebook/fbthrift to be available on the `$PATH`.  As of 2026-01-12 it seems this dependency can be safely removed, which makes the entire fbthrift workflow obsolete.
 
 I plan to keep the fbthrift workflow green too, for a little while at least, until I'm confident it will no longer be needed going forward.  Which would be excellent, because as shown below, the fbthrift build has required much more ongoing maintenance ("churn") than Sapling itself.
 
