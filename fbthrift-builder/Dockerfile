@@ -9,6 +9,7 @@ RUN dnf install -y \
         binutils \
         gcc-c++ \
         git \
+        libaio-devel \
         m4 \
         openssl \
         openssl-devel \

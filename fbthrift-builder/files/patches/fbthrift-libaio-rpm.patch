@@ -1,0 +1,11 @@
+diff --git a/build/fbcode_builder/manifests/libaio b/build/fbcode_builder/manifests/libaio
+index e35991923b..2364afab1d 100644
+--- a/build/fbcode_builder/manifests/libaio
++++ b/build/fbcode_builder/manifests/libaio
+@@ -4,5 +4,5 @@ name = libaio
+ [debs]
+ libaio-dev
+ 
+-[rpms.distro=centos_stream]
++[rpms]
+ libaio-devel
