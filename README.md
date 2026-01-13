@@ -13,27 +13,28 @@ Pre-built RPMs are available as artifacts of successful [sapling workflow runs](
 Running the build locally requires either docker or podman.  Clone the repo and run:
 
 ```sh
-./scripts/build-fbthrift.sh
-./scripts/test-fbthrift.sh
-
 ./scripts/build-sapling.sh
 ./scripts/test-sapling.sh
 ```
-
-to build an fbthrift artifact and then Sapling itself.  Subsequent Sapling builds can skip rebuilding fbthrift, as long as you have a relatively recent working version.
 
 ## Details
 
 There are official Sapling [releases](https://github.com/facebook/sapling/releases) for macOS, Windows, and Ubuntu—but not for AlmaLinux 10 or similar distributions.  Additionally, the official releases are updated infrequently: At the time of writing, the current release is about six months old.
 
-Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for building Sapling from source.  But these are not trivial to follow on AlmaLinux 10, requiring additional system dependencies, some patches, and a build of [fbthrift](https://github.com/facebook/fbthrift) as a prerequisite.  In turn, fbthrift itself needs similar finagling to build.
+Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for building Sapling from source.  But these are not trivial to follow on AlmaLinux 10, requiring additional system dependencies, some patches, and a build of [fbthrift](https://github.com/facebook/fbthrift) as a prerequisite.
 
-This repo provides a set of scripted docker/podman containers that build the fbthrift dependency and smoke test it within a fresh container, and then do the same with Sapling itself.  Those are run as two distinct steps so that the fbthrift build (very time-consuming and sometimes flaky) can be done once in order to support multiple builds of Sapling (not as slow, and fairly reliable).  For local builds, that means keeping an fbthrift tarball in your artifacts directory; for GitHub actions it means the sapling workflow downloads artifacts from the most recent successful fbthrift run.
+This repo provides a set of scripted docker/podman containers that build Sapling and smoke test it within a fresh container.
+
+## On fbthrift
+
+Before facebook/sapling@3255f860ffee22975e37278475955a8ba6f398c6, building Sapling required a prexisting thrift1 binary from facebook/fbthrift to be available on the `$PATH`.  As of 2026-01-12 it seems this dependency can be safely removed, which makes the entire fbthrift workflow obsolete.
+
+I plan to keep the fbthrift workflow green too, for a little while at least, until I'm confident it will no longer be needed going forward.  Which would be excellent, because as shown below, the fbthrift build has required much more ongoing maintenance ("churn") than Sapling itself.
 
 ## Caveats
 
 - To my understanding, there isn't a working test suite for the public version of Sapling.  So the only testing this build does is of the "try installing the RPM and seeing if basic commands work" variety.  While Meta's main branch should generally work, it would still be possible for a bug to show up in a "successful" build here, which otherwise would have failed against the internal test suite.
-- Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
+- Builds are non-hermetic.
 
 ## The churn
 

@@ -20,10 +20,4 @@ ENV PATH="${PATH}:/root/.cargo/bin"
 ARG files_cachebust=1
 COPY files/ /
 
-# fbthrift dependency, unavailable as EPEL 10 package
-RUN tar -C / --exclude=LICENSE -xJf /fbthrift.tar.xz
-RUN rm -f /fbthrift.tar.xz
-ENV PATH="${PATH}:/opt/fbthrift/bin"
-ENV THRIFT_INCLUDE_PATH="/opt/fbthrift/include"
-
 CMD ["/run.sh"]
