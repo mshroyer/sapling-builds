@@ -21,13 +21,13 @@ Running the build locally requires either docker or podman.  Clone the repo and 
 
 There are official Sapling [releases](https://github.com/facebook/sapling/releases) for macOS, Windows, and Ubuntu—but not for AlmaLinux 10 or similar distributions.  Additionally, the official releases are updated infrequently: At the time of writing, the current release is about six months old.
 
-Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for building Sapling from source.  But these are not trivial to follow on AlmaLinux 10, requiring additional system dependencies, some patches, and a build of [fbthrift](https://github.com/facebook/fbthrift) as a prerequisite.
+Meta provides [instructions](https://sapling-scm.com/docs/introduction/installation) for building Sapling from source.  But these are not trivial to follow on AlmaLinux 10, requiring additional system dependencies and some patches as a prerequisite.
 
 This repo provides a set of scripted docker/podman containers that build Sapling and smoke test it within a fresh container.
 
 ## On fbthrift
 
-Before [a commit on December 1st](https://github.com/facebook/sapling/commit/3255f860ffee22975e37278475955a8ba6f398c6), building Sapling required a prexisting thrift1 binary from facebook/fbthrift to be available on the `$PATH`.  As of 2026-01-12 it seems this dependency can be safely removed, which makes the entire fbthrift workflow obsolete.
+Prior to [a commit in December 2025](https://github.com/facebook/sapling/commit/3255f860ffee22975e37278475955a8ba6f398c6), building Sapling required a prexisting thrift1 binary from [facebook/fbthrift](https://github.com/facebook/fbthrift/) to be available on the `$PATH`.  As of 2026-01-12 it seems this dependency can be safely removed, which makes the entire fbthrift workflow obsolete.
 
 I plan to keep the fbthrift workflow green too, for a little while at least, until I'm confident it will no longer be needed going forward.  Which would be excellent, because as shown below, the fbthrift build has required much more ongoing maintenance ("churn") than Sapling itself.
 
