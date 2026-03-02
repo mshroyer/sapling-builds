@@ -30,6 +30,12 @@ Meta provides [instructions](https://sapling-scm.com/docs/introduction/installat
 
 This repo provides a set of scripted docker/podman containers that build the fbthrift dependency and smoke test it within a fresh container, and then do the same with Sapling itself.  Those are run as two distinct steps so that the fbthrift build (very time-consuming and sometimes flaky) can be done once in order to support multiple builds of Sapling (not as slow, and fairly reliable).  For local builds, that means keeping an fbthrift tarball in your artifacts directory; for GitHub actions it means the sapling workflow downloads artifacts from the most recent successful fbthrift run.
 
+## On fbthrift as a dependency
+
+Prior to [a commit in December 2025](https://github.com/facebook/sapling/commit/3255f860ffee22975e37278475955a8ba6f398c6), building Sapling required a prexisting thrift1 binary from [facebook/fbthrift](https://github.com/facebook/fbthrift/) to be available on the `$PATH`.  As of 2026-01-12 it seemed this dependency could be safely removed, possibly making the entire fbthrift workflow obsolete.
+
+However, [a later commit in February 2026](https://github.com/facebook/sapling/commit/f54b2938510b3c27ec00ce9dc9451c0a7556e2d0) causes the build to fail once again, if a pre-existing `thrift1` binary isn't available on the build host.  So while it seems that a separate fbthrift build isn't fundamentally necessary to build Sapling itself, in practice the Sapling build may be unreliable without it.
+
 ## Caveats
 
 - To my understanding, there isn't a working test suite for the public version of Sapling.  So the only testing this build does is of the "try installing the RPM and seeing if basic commands work" variety.  While Meta's main branch should generally work, it would still be possible for a bug to show up in a "successful" build here, which otherwise would have failed against the internal test suite.
