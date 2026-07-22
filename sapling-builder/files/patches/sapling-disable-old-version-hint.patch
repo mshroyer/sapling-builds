@@ -1,0 +1,16 @@
+diff --git a/eden/scm/sapling/dispatch.py b/eden/scm/sapling/dispatch.py
+--- a/eden/scm/sapling/dispatch.py
++++ b/eden/scm/sapling/dispatch.py
+@@ -323,7 +323,11 @@
+ 
+     versionthresholddays = req.ui.configint("ui", "version-age-threshold-days")
+     versionagedays = util.versionagedays()
+-    if versionthresholddays and versionagedays > versionthresholddays:
++    if (
++        "SAPLING_DISABLE_OLD_VERSION_HINT" not in os.environ
++        and versionthresholddays
++        and versionagedays > versionthresholddays
++    ):
+         hintutil.trigger("old-version", versionagedays)
+ 
+     # by registering this exit handler here, we guarantee that it runs
