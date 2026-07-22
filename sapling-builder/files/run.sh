@@ -32,6 +32,11 @@ done
 PATH="$PATH:$HOME/.cargo/bin"
 export PATH
 
+GIT_HASH="$(git rev-parse --short=12 HEAD)"
+TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
+SAPLING_VERSION="0.2-${TIMESTAMP}_${GIT_HASH}"
+export SAPLING_VERSION
+
 cd eden/scm
 make oss
 
