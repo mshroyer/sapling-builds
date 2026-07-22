@@ -24,7 +24,9 @@ git reset --hard HEAD
 git checkout "$commit"
 
 for patch in /patches/sapling*.patch; do
-	patch -p1 <"$patch"
+	if [ -f "$patch" ]; then
+		patch -p1 <"$patch"
+	fi
 done
 
 PATH="$PATH:$HOME/.cargo/bin"

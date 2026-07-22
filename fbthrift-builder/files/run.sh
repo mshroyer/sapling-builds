@@ -28,7 +28,9 @@ git reset --hard HEAD
 git checkout "$commit"
 HASH="$(git rev-parse HEAD | head -c8)"
 for patch in /patches/fbthrift*.patch; do
-	patch -p1 <"$patch"
+	if [ -f "$patch" ]; then
+		patch -p1 <"$patch"
+	fi
 done
 
 # Additional patches we've added to getdeps manifests.
