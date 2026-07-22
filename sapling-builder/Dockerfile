@@ -2,8 +2,8 @@ FROM almalinux:10
 
 # Base system dependencies
 RUN dnf groupinstall -y "Development Tools" && \
-    dnf install -y clang-devel libaio perl-FindBin perl-IPC-Cmd perl-Time-Piece \
-        python3-devel python3-setuptools rpmdevtools
+    dnf install -y clang-devel glibc-langpack-en libaio perl-FindBin perl-IPC-Cmd \
+        perl-Time-Piece python3-devel python3-setuptools rpmdevtools
 
 # EPEL dependencies
 RUN dnf install -y 'dnf-command(config-manager)' && \
