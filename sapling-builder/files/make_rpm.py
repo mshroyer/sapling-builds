@@ -16,7 +16,7 @@ import subprocess
 from typing import Tuple
 
 
-VERSION_PATTERN = re.compile(r"Sapling (.*)[_\-\.](\d+)-(\d+)-h(.+)")
+VERSION_PATTERN = re.compile(r"Sapling (.*)[_\-\.](\d+)_(\d+)_(.+)")
 RPMBUILD = Path(os.environ["HOME"]) / "rpmbuild"
 
 
@@ -54,7 +54,7 @@ def build_rpm(spec_file: Path, artifact_dir: Path):
 
 
 def get_default_artifact_dir() -> Path:
-    return Path(os.getcwd())
+    return Path(os.getcwd()) / "out"
 
 
 def get_default_spec() -> Path:
