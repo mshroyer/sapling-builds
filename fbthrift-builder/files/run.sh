@@ -29,6 +29,7 @@ git checkout "$commit"
 HASH="$(git rev-parse HEAD | head -c8)"
 for patch in /patches/fbthrift*.patch; do
 	if [ -f "$patch" ]; then
+		printf "\nApplying %s...\n" "$patch"
 		patch -p1 <"$patch"
 	fi
 done
