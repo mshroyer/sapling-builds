@@ -30,6 +30,13 @@ for patch in /patches/sapling*.patch; do
 	fi
 done
 
+for patchscript in /patchescripts/*; do
+	if [ -x "$patchscript" ]; then
+		printf "\nApplying %s...\n" "$patchscript"
+		"$patchscript"
+	fi
+done
+
 PATH="$PATH:$HOME/.cargo/bin"
 export PATH
 
