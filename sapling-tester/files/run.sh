@@ -13,7 +13,13 @@ echo "Checking sapling build: ${RPM}"
 try_sl() {
 	echo ""
 	echo "Trying \`sl $@\`..."
-	sl $@
+	sl $@ >out.txt 2>&1
+
+	if [ -n "$(grep -l old-version out.txt)" ]; then
+		echo "error: sl is incorrectly outputting an old-version hint" >&2
+		exit 1
+	fi
+
 	echo "Success!"
 }
 
