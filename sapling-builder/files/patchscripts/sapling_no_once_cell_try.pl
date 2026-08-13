@@ -6,7 +6,7 @@ use File::Basename qw(basename dirname);
 use File::Copy     qw(move);
 use File::Find     qw();
 
-my $scmlib = shift . '/eden/scm/lib';
+my $scmlib = './eden/scm/lib';
 
 sub source_file_needs_patching {
     my ( $path ) = @_;
