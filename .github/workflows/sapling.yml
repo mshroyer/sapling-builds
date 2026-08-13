@@ -23,7 +23,7 @@ jobs:
         run: ./scripts/build-sapling.sh
 
       - name: Test sapling RPM
-        run: ./scripts/test-sapling.sh
+        run: ./scripts/try-sapling.sh
 
       - name: Get artifact name
         id: artifact_name

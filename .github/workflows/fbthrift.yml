@@ -18,7 +18,7 @@ jobs:
         run: ./scripts/build-fbthrift.sh
 
       - name: Test fbthrift tarball
-        run: ./scripts/test-fbthrift.sh
+        run: ./scripts/try-fbthrift.sh
 
       - name: Get artifact name
         id: artifact_name
