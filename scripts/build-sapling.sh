@@ -5,8 +5,17 @@
 # Builds from main in https://github.com/facebook/sapling, or from a specific
 # commmit if one as given as an optional argument.  Requires an existing build
 # of fbthrift in ./artifacts as a prerequisite.
+#
+# With --test, also runs Sapling's .t suite against the build, after the RPM
+# has been written out.  That roughly doubles the time this takes.
 
 set -e
+
+run_tests=""
+if [ "$1" = "--test" ]; then
+	run_tests=1
+	shift
+fi
 
 commit="$1"
 if [ -z "$commit" ]; then
@@ -32,5 +41,6 @@ ln "$LATEST_FBTHRIFT" sapling-builder/files/fbthrift.tar.xz
 # Build and run the sapling-builder container.
 IMAGE_ID="$(mktemp)"
 "$DOCKER" build --iidfile="$IMAGE_ID" ./sapling-builder
-"$DOCKER" run -v ./artifacts:/artifacts:z --rm "$(cat "$IMAGE_ID")" /run.sh "$commit"
+"$DOCKER" run -e SAPLING_RUN_TESTS="$run_tests" -v ./artifacts:/artifacts:z --rm \
+	"$(cat "$IMAGE_ID")" /run.sh "$commit"
 rm -f "$IMAGE_ID"
