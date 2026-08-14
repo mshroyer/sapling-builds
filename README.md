@@ -3,7 +3,7 @@
 
 # Sapling Packages for Linux
 
-Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) targeting AlmaLinux 10 on x86\_64.
+Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) packages for AlmaLinux.
 
 ## Building locally
 
@@ -18,21 +18,21 @@ Running the build locally requires either docker or podman.  Clone the repo and 
 
 ## Details
 
-There are official Sapling [tarballs](https://github.com/facebook/sapling/releases) built with manylinux to target most x86\_64 or arm64 Linux distros.  These are great to have, but:
+There are official Sapling [tarballs](https://github.com/facebook/sapling/releases) built on manylinux, so as to target most x86\_64 or arm64 Linux distros.  These are great to have, but:
 
 1. They're released infrequently (currently ~quarterly).
 2. For maximum compatibility they bundle their own copies of libpython, libcurl, and libssl instead of relying on system packages.
 3. Because of the combination of 1 and 2, using these binary releases means running code that could be missing important security updates.
 
-This repo is an attempt to get regular AlmaLinux builds of Sapling that dynamically link to dependencies available as system libraries.
+This repo is an attempt to get regular AlmaLinux builds of Sapling that dynamically link to those of their dependencies available as system libraries.
 
 ## Special dependencies
 
 ### libssl
 
-Upstream Sapling's http-client crate enables the `static-ssl` feature on its curl dependency, causing OpenSSL to be statically linked into the binary.  If built on a host with libcurl-devel, however, the system libcurl is dynamically linked, transitively pulling in a dynamic dependency on libssl anyway.
+Upstream Sapling's http-client crate enables the `static-ssl` feature on its curl dependency, causing OpenSSL to be statically linked into the binary.  If built on a host with libcurl-devel, however, the system libcurl is dynamically linked, transitively pulling in an additional dynamic dependency on libssl anyway.  I'm not sure this actually causes any issues in practice, but it's not ideal.
 
-My original approach was to go maximally statically-linked by building in a container without libcurl, which causes the curl crate to build and statically link its own copy of libcurl: this resulted in no system dependency on either libcurl or libssl.  But as mentioned above, I'd rather rely on system curl and OpenSSL so that security updates can be applied without rebuilding Sapling, so currently this build patches Sapling's http-client to turn off `static-ssl`.  This yields a slightly smaller RPM at the cost of a larger dependency tree.
+My original approach was to go maximally statically-linked by building in a container without libcurl, which causes the curl crate to build and statically link its own copy of libcurl; this resulted in no system dependency on either libcurl or libssl.  But as mentioned above, I'd rather rely on system curl and OpenSSL so that security updates can be applied without rebuilding Sapling.  Currently we patch Sapling's http-client to not statically link libssl.  This yields a slightly smaller RPM at the cost of a larger dependency tree.
 
 ### fbthrift
 
