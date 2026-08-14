@@ -2,7 +2,7 @@ name: sapling
 on:
   workflow_dispatch:
   schedule:
-    - cron: "18 22 * * *"
+    - cron: "18 22 * * 1"
 
 permissions:
   contents: read
