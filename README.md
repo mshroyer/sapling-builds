@@ -1,7 +1,7 @@
 [![sapling](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml)
 [![fbthrift](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml)
 
-# Sapling Builds for Linux
+# Sapling Packages for Linux
 
 Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) targeting AlmaLinux 10 on x86\_64.
 
@@ -32,17 +32,17 @@ This repo is an attempt to get regular AlmaLinux builds of Sapling that dynamica
 
 Upstream Sapling's http-client crate enables the `static-ssl` feature on its curl dependency, causing OpenSSL to be statically linked into the binary.  If built on a host with libcurl-devel, however, the system libcurl is dynamically linked, transitively pulling in a dynamic dependency on libssl anyway.
 
-My original approach was to go maximally statically-linked by building in a container without libcurl, resulting in on system dependency on either libcurl or libssl.  But as described above, I'd rather rely on system curl and OpenSSL so that security updates can be applied without rebuilding Sapling, so currently this build patches Sapling's http-client to turn off `static-ssl`.  This yields a slightly smaller RPM, at the cost of a larger dependency tree.
+My original approach was to go maximally statically-linked by building in a container without libcurl, which causes the curl crate to build and statically link its own copy of libcurl: this resulted in no system dependency on either libcurl or libssl.  But as mentioned above, I'd rather rely on system curl and OpenSSL so that security updates can be applied without rebuilding Sapling, so currently this build patches Sapling's http-client to turn off `static-ssl`.  This yields a slightly smaller RPM at the cost of a larger dependency tree.
 
 ### fbthrift
 
 Prior to [a commit in December 2025](https://github.com/facebook/sapling/commit/3255f860ffee22975e37278475955a8ba6f398c6), building Sapling required a prexisting thrift1 binary from [facebook/fbthrift](https://github.com/facebook/fbthrift/) to be available on the `$PATH`.  As of 2026-01-12 it seemed this dependency could be safely removed, possibly making the entire fbthrift workflow obsolete.
 
-However, [a later commit in February 2026](https://github.com/facebook/sapling/commit/f54b2938510b3c27ec00ce9dc9451c0a7556e2d0) caused the build to fail once again if a pre-existing `thrift1` binary isn't available on the build host.  As of 2026-08-13 it's again building fine without `thrift1` on the path, but for now I'll keep the fbthrift workflow running in case we end up needing it again.
+However, [a later commit in February 2026](https://github.com/facebook/sapling/commit/f54b2938510b3c27ec00ce9dc9451c0a7556e2d0) caused the build to fail once again if a pre-existing `thrift1` binary isn't available on the build host.  As of 2026-08-13 it's again building fine without `thrift1`, but for now I'll keep the fbthrift workflow running in case we end up needing it again.
 
 ## Caveats
 
-- There isn't a fully working test suite for the public version of Sapling.  So the only testing this build does is of the "try installing the RPM and seeing if basic commands work" variety.  While Meta's main branch should generally work, it would still be possible for a bug to show up in a "successful" build here, which otherwise would have failed against the internal test suite.
+- The `.t` tests don't all work on the public version of Sapling.  At the moment, the only testing this build does is of the "try installing the RPM and seeing if basic commands work" variety.  While Meta's main branch should generally work, it would still be possible for a bug to show up in a "successful" build here, which otherwise would have failed against the internal test suite.
 - Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
 
 ## The churn
