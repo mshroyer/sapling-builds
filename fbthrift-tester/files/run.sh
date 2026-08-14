@@ -11,3 +11,5 @@ fi
 echo "Checking fbthrift build: ${TARBALL}"
 tar -C / --exclude=LICENSE -xJf "$TARBALL"
 /opt/fbthrift/bin/thrift1 --help >/dev/null
+
+echo "Success!"
