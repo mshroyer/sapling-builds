@@ -10,7 +10,7 @@ Requires: git
 Requires: (libcurl or libcurl-minimal)
 Requires: nodejs
 
-q%description
+%description
 Unofficial build of the Sapling source control manager.
 
 %prep
