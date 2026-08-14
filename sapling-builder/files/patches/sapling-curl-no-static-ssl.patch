@@ -1,0 +1,12 @@
+diff --git a/eden/scm/lib/http-client/Cargo.toml b/eden/scm/lib/http-client/Cargo.toml
+--- a/eden/scm/lib/http-client/Cargo.toml
++++ b/eden/scm/lib/http-client/Cargo.toml
+@@ -16,7 +16,7 @@
+ anyhow = "1.0.104"
+ async-compression = { version = "0.4.42", features = ["brotli", "bzip2", "deflate", "futures-io", "gzip", "tokio", "zlib", "zstd", "zstdmt"] }
+ auto_impl = "1.3.0"
+-curl = { version = "0.4.50", features = ["http2", "static-ssl"] }
++curl = { version = "0.4.50", features = ["http2"] }
+ curl-sys = "0.4.87"
+ flume = "0.11.1"
+ futures = { version = "0.3.31", features = ["async-await", "compat"] }
