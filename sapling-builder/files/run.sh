@@ -65,7 +65,7 @@ for patch in /patches/sapling*.patch; do
 	fi
 done
 
-for patchscript in /patchescripts/*; do
+for patchscript in /patchscripts/*; do
 	if [ -x "$patchscript" ]; then
 		printf "\nApplying %s...\n" "$patchscript"
 		"$patchscript"
