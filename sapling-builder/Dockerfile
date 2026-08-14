@@ -17,6 +17,11 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh 
     rm /tmp/rustup.sh
 ENV PATH="${PATH}:/root/.cargo/bin"
 
+# Unprivileged user for the .t test suite.  Several tests make a file or
+# directory unwritable and then check that writing to it fails, which never
+# happens as root.
+RUN useradd --create-home saplingtest
+
 ARG files_cachebust=1
 COPY files/ /
 

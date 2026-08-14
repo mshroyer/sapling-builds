@@ -1,0 +1,43 @@
+# Tests that can't pass against a public build of Sapling, in the container
+# built by ../../Dockerfile.  Passed to run-tests.py --blacklist, which
+# reports these as skipped rather than failed.
+#
+# Meta maintains an equivalent list internally: eden/scm/tests/targets.bzl
+# points HGTEST_BLOCKLIST at //eden/scm/fb/tests:blocklists, but eden/scm/fb/
+# is stripped from the public repo, so we keep our own.
+
+# Wants sapling.agent.fb, which only exists inside Meta.
+test-code-format.t
+
+# Expect Meta-only extensions (arcdiff, crdump, dirsync, drop, edensparse,
+# worktree, ...) to show up in help and command listings.
+test-completion.t
+test-help.t
+test-worktree-no-eden.t
+
+# Want Meta's biggrep service.
+test-biggrep.t
+test-tweakdefaults-grep.t
+
+# Want dynamicconfig or another Meta-internal config source: fb=json,
+# fb=static, HG_TEST_INTERNALCONFIG.
+test-clone-per-repo-config.t
+test-config-precedence.t
+test-debugrefreshconfig.t
+test-dynamicconfig-unicode.t
+test-smartlog.t
+test-smartlog-interactive.t
+test-smartlog-interactive-highlighting.t
+
+# Drives a fake Phabricator conduit for phabricator.intern.facebook.com.
+# Hangs rather than failing, so left in it burns the whole --timeout.
+test-fastlog.t
+
+# Globs for "Sapling 4.*" and so only fails because run.sh sets its own
+# SAPLING_VERSION.  Drop this line if that ever matches upstream's numbering.
+test-identity.t
+
+# Flaky under parallel runs rather than actually broken: each passes on its
+# own, but run together one of them reliably fails or times out.
+test-fbhistedit-exec.t
+test-sampling.t

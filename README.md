@@ -16,6 +16,14 @@ Running the build locally requires either docker or podman.  Clone the repo and 
 ./scripts/try-sapling.sh    # Check that it installs and runs in a minimal container
 ```
 
+Pass `--test` to `build-sapling.sh` to also run Sapling's `.t` suite against the build, once the RPM has been written out:
+
+```sh
+./scripts/build-sapling.sh --test
+```
+
+This roughly doubles how long the build takes.  See [Testing](#testing) for what it does and doesn't cover.
+
 ## Details
 
 There are official Sapling [tarballs](https://github.com/facebook/sapling/releases) built on manylinux, so as to target most x86\_64 or arm64 Linux distros.  These are great to have, but:
@@ -40,9 +48,20 @@ Prior to [a commit in December 2025](https://github.com/facebook/sapling/commit/
 
 However, [a later commit in February 2026](https://github.com/facebook/sapling/commit/f54b2938510b3c27ec00ce9dc9451c0a7556e2d0) caused the build to fail once again if a pre-existing `thrift1` binary isn't available on the build host.  As of 2026-08-13 it's again building fine without `thrift1`, but for now I'll keep the fbthrift workflow running in case we end up needing it again.
 
+## Testing
+
+`./scripts/try-sapling.sh` does the "install the RPM and see if basic commands work" check, in a fresh minimal container.
+
+`./scripts/build-sapling.sh --test` additionally runs Sapling's own `.t` suite, inside the build container where the built tree still exists.  Two details of how it's invoked are worth knowing about:
+
+- The suite is written against the `hg` identity rather than `sl`.  Legacy command aliases and some default templates only register when the running binary is named `hg` (see `showlegacynames` in `eden/scm/sapling/registrar.py`), and upstream runs the tests the same way, per `HGEXECUTABLEPATH` in `eden/scm/tests/targets.bzl`.  Since `make oss` only builds `sl`, we hardlink it to `hg` and point `run-tests.py --with-hg` at that.  A symlink doesn't work, because the identity comes from `current_exe()`, which resolves symlinks.
+- The tests run as an unprivileged user.  A number of them make a file unwritable and then check that writing to it fails, which never happens as root.
+
+A little under 900 tests run, of which about 90 skip for want of some optional feature.  Roughly twenty can't pass here at all, and are listed in [`sapling-builder/files/blacklists/oss`](sapling-builder/files/blacklists/oss) so that `run-tests.py` reports them as skipped rather than failed.  Most of those depend on something that only exists inside Meta—Phabricator, biggrep, dynamicconfig, `sapling.agent.fb`, or an extension that isn't in the public source.  Meta keeps an equivalent list of its own, but under `eden/scm/fb/`, which is stripped from the public repo.
+
 ## Caveats
 
-- The `.t` tests don't all work on the public version of Sapling.  At the moment, the only testing this build does is of the "try installing the RPM and seeing if basic commands work" variety.  While Meta's main branch should generally work, it would still be possible for a bug to show up in a "successful" build here, which otherwise would have failed against the internal test suite.
+- The `.t` suite is not run by the nightly workflow, only on demand with `--test`.  Passing it is also weaker evidence than it looks: the tests that don't run publicly are exactly the ones covering Meta's own integrations, so a bug could still show up in a "successful" build here that would have failed against the internal suite.
 - Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
 
 ## The churn
