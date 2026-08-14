@@ -1,0 +1,35 @@
+# Workspace members that `cargo test` can't build here, passed to
+# --exclude.  See also blacklists/cargo-tests for individual tests.
+#
+# Sapling's Cargo.toml files are generated from Buck targets, so some of them
+# only describe a build that works inside Meta.  None of the packages below
+# are part of the sl binary we ship.
+
+# Built as Python extension modules, so they enable cpython's
+# "extension-module" feature, which deliberately leaves libpython unlinked.
+# Cargo unifies features across the workspace, so leaving these in means no
+# test binary anywhere in the workspace can link.  Neither has any in-workspace
+# dependents, so excluding them takes extension-module out of the graph.
+bindings-lib
+conch_parser
+
+# build.rs is `panic!("unsupported target (only macos is supported)")` off
+# Apple.  Nothing depends on it here--webview-app only wants it on macOS--so
+# it's built purely by virtue of being a workspace member.
+webview-sys
+
+# Calls clone::eden_clone and friends, which are behind sapling-clone's "eden"
+# feature.  cmdworktree doesn't enable that itself; it's an optional dependency
+# of `commands`, and relies on commands/eden turning the feature on.  Building
+# it as a standalone workspace member doesn't.
+cmdworktree
+
+# ffi.rs calls blob::Blob::into_iobuf, which is #[cfg(fbcode_build)], and the
+# iobuf crate isn't in the public tree at all.
+sapling-backingstore
+backingstore-benches
+
+# Its tests import revisionstore::testutil, behind revisionstore's "for-tests"
+# feature, which pyworker never enables.  Fails the same way under a plain
+# `cargo test -p pyworker`.
+pyworker
