@@ -1,0 +1,19 @@
+# Individual cargo tests to skip, passed to the test harness as --skip.
+# Matched as substrings of the test name, across every test binary.
+#
+# Prefer fixing the environment over adding entries here: running the tests as
+# an unprivileged user, for instance, is what makes identity's test_sniff_dir,
+# treestate's filestore::tests::readonly and util's test_create_dir_no_perms
+# pass, since all three check that something is *not* writable.
+
+# Hammers create_dir_with_mode from ten threads.  On a rename onto a
+# non-empty directory it expects ENOTEMPTY, which is what ext4 and tmpfs
+# return, but overlayfs--which is what a container's / and /tmp are--returns
+# EEXIST, so the "we lost the race, that's fine" arm doesn't match and the
+# error propagates.  Passes with TMPDIR pointed at a tmpfs.
+test_create_dir_with_mode_race
+
+# Asserts that enabled() isn't called once callsite interest is "never", but
+# tracing caches that interest process-wide, so the other two tests in the
+# same binary invalidate it.  Passes on its own or with --test-threads=1.
+test_never_callsite_interest_skips_enabled
