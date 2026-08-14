@@ -10,15 +10,16 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 REPO="$(identify_github_repo)"
 WORKFLOW_ID="fbthrift.yml"
 
-run_id="$(gh api "repos/${REPO}/actions/runs" \
-	     --paginate --slurp \
-	     | jq '[ .[].workflow_runs[]
-			     | select(.name=="fbthrift")
-			     | select(.conclusion=="success") ]
-			     | sort_by(.created_at)
-			     | reverse
-			     | .[0]
-			     | .id')"
+# Runs come back newest first, so the first successful one is the one we want.
+# Asking about this workflow specifically beats paging through every run in the
+# repo, which gets slower with each night's build.
+run_id="$(gh api "repos/${REPO}/actions/workflows/${WORKFLOW_ID}/runs?status=success&per_page=1" \
+	     --jq '.workflow_runs[0].id')"
+
+if [ -z "$run_id" ]; then
+	echo "No successful ${WORKFLOW_ID} run found in ${REPO}" >&2
+	exit 1
+fi
 
 echo "Fetching artifacts from ${WORKFLOW_ID} run ${run_id}"
 echo "https://github.com/${REPO}/actions/runs/${run_id}/"
