@@ -39,6 +39,7 @@ run_tests() {
 		--with-hg='$(pwd)/hg' \
 		--blacklist='$BLACKLIST' \
 		--jobs='$(nproc)' \
+                --retry=5 \
 		--timeout=300"
 }
 

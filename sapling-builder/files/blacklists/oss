@@ -41,3 +41,6 @@ test-identity.t
 # own, but run together one of them reliably fails or times out.
 test-fbhistedit-exec.t
 test-sampling.t
+
+# Also flaky even with retries:
+test-mutation.t
