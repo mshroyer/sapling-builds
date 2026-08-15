@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Fetch fbthrift
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: ./scripts/fetch-fbthrift.sh
+      # - name: Fetch fbthrift
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: ./scripts/fetch-fbthrift.sh
 
       - name: Build sapling RPM and run tests
         run: ./scripts/build-sapling.sh --test
