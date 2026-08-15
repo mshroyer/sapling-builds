@@ -19,10 +19,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: ./scripts/fetch-fbthrift.sh
 
-      - name: Build sapling RPM
+      - name: Build sapling RPM and run tests
         run: ./scripts/build-sapling.sh --test
 
-      - name: Test sapling RPM
+      - name: Try sapling RPM
         run: ./scripts/try-sapling.sh
 
       - name: Get artifact name
