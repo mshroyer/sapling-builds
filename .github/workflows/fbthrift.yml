@@ -8,8 +8,15 @@ permissions:
   contents: read
 
 jobs:
-  fbthrift-el10-x86_64:
-    runs-on: ubuntu-latest
+  fbthrift-el10:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            arch: amd64
+          - os: ubuntu-latest
+            arch: arm64
 
     steps:
       - uses: actions/checkout@v5
