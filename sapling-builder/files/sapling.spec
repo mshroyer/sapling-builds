@@ -5,7 +5,8 @@ Summary: Sapling SCM
 License: GPLv2
 Group: Development/Tools
 URL: https://github.com/mshroyer/sapling-builds
-BuildArch: x86_64
+%{!?target_arch: %global target_arch noarch}
+BuildArch: %{target_arch}
 Requires: git
 Requires: (libcurl or libcurl-minimal)
 Requires: nodejs

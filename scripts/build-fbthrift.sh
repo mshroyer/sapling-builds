@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Build an fbthrift tarball for AlmaLinux 10 x86_64.
+# Build an fbthrift tarball for AlmaLinux 10.
 #
 # Builds from main or, if specified, a specific fbthrift commit.
 

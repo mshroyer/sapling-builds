@@ -9,6 +9,7 @@ properly-versioned RPM that installs them.
 
 import argparse
 import os
+import platform
 from pathlib import Path
 import re
 import shutil
@@ -48,7 +49,17 @@ def build_rpm(spec_file: Path, artifact_dir: Path):
     shutil.copy(isl_dist, RPMBUILD / "BUILD")
 
     subprocess.run(
-        ["rpmbuild", "-bb", spec_file, "-D", f"ver {ver}", "-D", f"rel {rel}"],
+        [
+            "rpmbuild",
+            "-bb",
+            spec_file,
+            "-D",
+            f"target_arch {platform.machine()}",
+            "-D",
+            f"ver {ver}",
+            "-D",
+            f"rel {rel}",
+        ],
         check=True,
     )
 
@@ -81,7 +92,9 @@ def main():
 
     if args.out:
         print(f"Copying output to {args.out}")
-        shutil.copytree(RPMBUILD / "RPMS" / "x86_64", args.out, dirs_exist_ok=True)
+        shutil.copytree(
+            RPMBUILD / "RPMS" / platform.machine(), args.out, dirs_exist_ok=True
+        )
 
 
 if __name__ == "__main__":
