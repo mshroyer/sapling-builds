@@ -51,7 +51,7 @@ def build_rpm(spec_file: Path, artifact_dir: Path):
     subprocess.run(
         [
             "strip",
-            RPMBUILD / "BUILD" / sl,
+            RPMBUILD / "BUILD" / "sl",
         ],
         check=True,
     )
