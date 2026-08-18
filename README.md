@@ -22,6 +22,8 @@ Pass `--test` to additionally run Sapling's `.t` suite against the build:
 ./scripts/build-sapling.sh --test
 ```
 
+If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
+
 The container's architecture determines which architecture Sapling is built for; the build script does not cross-compile.  If you're building on an aarch64 Mac and want to produce and x86\_64 package, and you're using docker, you can run the container in Rosetta with:
 
 ```
@@ -29,8 +31,6 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 ./scripts/build-sapling.sh
 ./scripts/try-sapling.sh
 ```
-
-If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
 
 ## Details
 
