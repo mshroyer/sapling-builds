@@ -24,7 +24,7 @@ Pass `--test` to additionally run Sapling's `.t` suite against the build:
 
 If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
 
-The container's architecture determines which architecture Sapling is built for; the build script does not cross-compile.  If you're building on an aarch64 Mac and want to produce and x86\_64 package, and you're using docker, you can run the container in Rosetta with:
+The container's architecture determines which architecture Sapling is built for; the build script does not cross-compile.  If you're building on an aarch64 Mac and want to produce an x86\_64 package, and you're using docker, you can run the container in Rosetta with:
 
 ```
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
@@ -34,7 +34,7 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 ## Details
 
-There are official Sapling [tarballs](https://github.com/facebook/sapling/releases) built on manylinux, so as to target most x86\_64 or arm64 Linux distros.  These are great to have, but:
+There are official Sapling [tarballs](https://github.com/facebook/sapling/releases) built on manylinux, so as to target most x86\_64 or aarch64 Linux distros.  These are great to have, but:
 
 1. They're released infrequently (currently ~quarterly).
 2. For maximum compatibility they bundle their own copies of libpython, libcurl, and libssl instead of relying on system packages.
@@ -72,7 +72,7 @@ Neither of the builds seem to be flaky, but they do break occasionally.  Typical
 
 ### SSL errors with Docker Desktop on macOS
 
-If you're cross-compiling to x86\_64 from arm64 and seeing errors from dnf like:
+If you're cross-compiling to x86\_64 from aarch64 and seeing errors from dnf like:
 
 ```
 Error: Failed to download metadata for repo 'epel': Cannot prepare internal mirrorlist: Curl error (35): SSL connect error for https://mirrors.fedoraproject.org/metalink?repo=epel-z-10&arch=x86_64 [OpenSSL/3.2.2: error:06880006:asn1 encoding routines::EVP lib]
