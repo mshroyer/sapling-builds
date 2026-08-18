@@ -3,7 +3,7 @@
 
 # Sapling RPMs for Linux
 
-Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) packages for AlmaLinux.
+Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) packages for AlmaLinux 10.  x86\_64 and aarch64 are supported.
 
 ## Building locally
 
@@ -72,7 +72,7 @@ Neither of the builds seem to be flaky, but they do break occasionally.  Typical
 
 ### SSL errors with Docker Desktop on macOS
 
-If you're cross-compiling to x86\^64 from arm64 and seeing errors from dnf like:
+If you're cross-compiling to x86\_64 from arm64 and seeing errors from dnf like:
 
 ```
 Error: Failed to download metadata for repo 'epel': Cannot prepare internal mirrorlist: Curl error (35): SSL connect error for https://mirrors.fedoraproject.org/metalink?repo=epel-z-10&arch=x86_64 [OpenSSL/3.2.2: error:06880006:asn1 encoding routines::EVP lib]
