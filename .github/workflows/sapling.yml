@@ -27,7 +27,7 @@ jobs:
       #   run: ./scripts/fetch-fbthrift.sh
 
       - name: Build sapling RPM and run tests
-        run: ./scripts/build-sapling.sh --test
+        run: ./scripts/build-sapling.sh -t
 
       - name: Try sapling RPM
         run: ./scripts/try-sapling.sh

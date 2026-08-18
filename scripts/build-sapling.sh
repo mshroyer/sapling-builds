@@ -11,11 +11,20 @@
 
 set -e
 
-run_tests=""
-if [ "$1" = "--test" ]; then
-	run_tests=1
-	shift
-fi
+test_flag=
+while getopts t flag
+do
+	case "$flag" in
+		t)
+			test_flag=1
+			;;
+		*)
+			echo "Unknown flag: $flag" >&2
+			exit 1
+			;;
+	esac
+done
+shift $((OPTIND - 1))
 
 commit="$1"
 if [ -z "$commit" ]; then
@@ -41,6 +50,6 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 # Build and run the sapling-builder container.
 IMAGE_ID="$(mktemp)"
 "$DOCKER" build --iidfile="$IMAGE_ID" ./sapling-builder
-"$DOCKER" run -e SAPLING_RUN_TESTS="$run_tests" -v ./artifacts:/artifacts:z --rm \
+"$DOCKER" run -e SAPLING_RUN_TESTS="$test_flag" -v ./artifacts:/artifacts:z --rm \
 	"$(cat "$IMAGE_ID")" /run.sh "$commit"
 rm -f "$IMAGE_ID"

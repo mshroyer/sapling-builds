@@ -16,10 +16,10 @@ Running the build locally requires either docker or podman.  Clone the repo and 
 ./scripts/try-sapling.sh    # Check that it installs and runs in a minimal container
 ```
 
-Pass `--test` to additionally run Sapling's `.t` suite against the build:
+Pass `-t` to additionally run Sapling's `.t` suite against the build:
 
 ```sh
-./scripts/build-sapling.sh --test
+./scripts/build-sapling.sh -t
 ```
 
 If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
