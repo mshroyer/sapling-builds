@@ -1,7 +1,7 @@
 [![sapling](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml)
 [![fbthrift](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml)
 
-# Sapling Packages for Linux
+# Sapling RPMs for Linux
 
 Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) packages for AlmaLinux.
 
@@ -22,6 +22,14 @@ Pass `--test` to additionally run Sapling's `.t` suite against the build:
 ./scripts/build-sapling.sh --test
 ```
 
+The container's architecture determines which architecture Sapling is built for; the build script does not cross-compile.  If you're building on an aarch64 Mac and want to produce and x86\_64 package, and you're using docker, you can run the container in Rosetta with:
+
+```
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+./scripts/build-sapling.sh
+./scripts/try-sapling.sh
+```
+
 If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
 
 ## Details
@@ -32,7 +40,7 @@ There are official Sapling [tarballs](https://github.com/facebook/sapling/releas
 2. For maximum compatibility they bundle their own copies of libpython, libcurl, and libssl instead of relying on system packages.
 3. Because of the combination of 1 and 2, using these binary releases means running code that could be missing important security updates.
 
-This repo is an attempt to get regular AlmaLinux builds of Sapling that dynamically link to those of their dependencies that are available as system libraries.
+This repo is an attempt to get regular AlmaLinux builds of Sapling that dynamically link to those dependencies that are available as system libraries, packaged as RPMs for convenience.
 
 ## Special dependencies
 
@@ -46,13 +54,13 @@ My original approach was to go maximally statically-linked by building in a cont
 
 Prior to [a commit in December 2025](https://github.com/facebook/sapling/commit/3255f860ffee22975e37278475955a8ba6f398c6), building Sapling required a prexisting thrift1 binary from [facebook/fbthrift](https://github.com/facebook/fbthrift/) to be available on the `$PATH`.  As of 2026-01-12 it seemed this dependency could be safely removed, possibly making the entire fbthrift workflow obsolete.
 
-However, [a later commit in February 2026](https://github.com/facebook/sapling/commit/f54b2938510b3c27ec00ce9dc9451c0a7556e2d0) caused the build to fail once again if a pre-existing `thrift1` binary isn't available on the build host.  As of 2026-08-13 it's again building fine without `thrift1`, but for now I'll keep the fbthrift workflow running in case we end up needing it again.
+However, [a later commit in February 2026](https://github.com/facebook/sapling/commit/f54b2938510b3c27ec00ce9dc9451c0a7556e2d0) caused the build to fail once again if a pre-existing `thrift1` binary isn't available on the build host.  As of 2026-08-13 it's again building fine without `thrift1`, but for now I'll keep the fbthrift workflow running in case we end up needing it again.  In particular, it seems to be needed by at least one of the cargo tests, should I enable those.
 
 ## Caveats
 
 Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
 
-The workflow runs most of Sapling's `.t` tests, but tests that depend on Meta-internal features are blacklisted, as are a few that are flaky.
+The workflow runs most of Sapling's `.t` tests, but tests that depend on Meta-internal features are blacklisted, as are a few that are flaky.  Cargo and Python tests are not currently run.
 
 ## The churn
 
@@ -64,7 +72,7 @@ Neither of the builds seem to be flaky, but they do break occasionally.  Typical
 
 ### SSL errors with Docker Desktop on macOS
 
-If you're seeing errors from dnf like:
+If you're cross-compiling to x86\^64 from arm64 and seeing errors from dnf like:
 
 ```
 Error: Failed to download metadata for repo 'epel': Cannot prepare internal mirrorlist: Curl error (35): SSL connect error for https://mirrors.fedoraproject.org/metalink?repo=epel-z-10&arch=x86_64 [OpenSSL/3.2.2: error:06880006:asn1 encoding routines::EVP lib]
