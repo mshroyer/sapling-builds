@@ -11,13 +11,19 @@
 
 set -e
 
+distro=el10
 test_flag=
-while getopts t flag
+while getopts d:t flag
 do
 	case "$flag" in
+		d)
+			distro="$OPTARG"
+			;;
+
 		t)
 			test_flag=1
 			;;
+
 		*)
 			echo "Unknown flag: $flag" >&2
 			exit 1
@@ -34,6 +40,14 @@ fi
 SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 . "$SCRIPTS/lib"
 
+# podman gets unhappy when I try to build an image that references files from
+# a parent directory, so let's copy them into the Dockerfile's directory
+# before building.
+FILES="./sapling-builder/$distro/files"
+if [ -d "$FILES" ]; then
+	rm -rf "$FILES"
+fi
+cp -prl ./sapling-builder/files "$FILES"
 
 # # Identify the latest fbthrift tarball in the artifacts directory.  This could
 # # be either one that was built locally using build-fbthrift.sh, or an artifact
@@ -50,7 +64,7 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 # Build and run the sapling-builder container.
 FILES_CACHEBUST="$(latest_mtime_recursive ./sapling-builder/files)"
 IMAGE_ID="$(mktemp)"
-"$DOCKER" build --iidfile="$IMAGE_ID" ./sapling-builder \
+"$DOCKER" build --iidfile="$IMAGE_ID" "./sapling-builder/$distro" \
 	  --build-arg=files_cachebust=$FILES_CACHEBUST
 "$DOCKER" run -e SAPLING_RUN_TESTS="$test_flag" -v ./artifacts:/artifacts:z --rm \
 	"$(cat "$IMAGE_ID")" /run.sh "$commit"
