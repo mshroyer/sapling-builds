@@ -33,14 +33,12 @@ run_tests() {
 	fi
 
 	ln -f out/sl hg
-	chown -R saplingtest tests
-
-	su - saplingtest -c "cd '$(pwd)/tests' && exec python3 run-tests.py \
-		--with-hg='$(pwd)/hg' \
-		--blacklist='$BLACKLIST' \
-		--jobs='$(nproc)' \
-                --retry=5 \
-		--timeout=300"
+	cd tests && exec python3 run-tests.py \
+			 --with-hg="../hg" \
+			 --blacklist="$BLACKLIST" \
+			 --jobs="$(nproc)" \
+			 --retry=5 \
+			 --timeout=300
 }
 
 if [ ! -d /artifacts ]; then
@@ -48,8 +46,8 @@ if [ ! -d /artifacts ]; then
 	exit 1
 fi
 
-cd /
-if [ ! -d /sapling ]; then
+cd "$HOME"
+if [ ! -d sapling ]; then
 	git clone https://github.com/facebook/sapling.git
 fi
 cd sapling
@@ -84,7 +82,16 @@ export SAPLING_VERSION
 cd eden/scm
 make oss
 
-/make_rpm.py --out /artifacts
+if [ ! -d "$HOME/artifacts" ]; then
+	mkdir "$HOME/artifacts"
+fi
+/make_rpm.py --out "$HOME/artifacts"
+for f in "$HOME/artifacts"/*; do
+	if [ -f "$f" ]; then
+		echo "Copying $f into /artifacts/"
+		sudo cp -f "$f" /artifacts/
+	fi
+done
 
 # Build the RPM before testing, so a test failure still leaves us an artifact.
 if [ -n "$SAPLING_RUN_TESTS" ]; then
