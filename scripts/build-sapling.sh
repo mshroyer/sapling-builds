@@ -48,8 +48,10 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 # ln "$LATEST_FBTHRIFT" sapling-builder/files/fbthrift.tar.xz
 
 # Build and run the sapling-builder container.
+FILES_CACHEBUST="$(latest_mtime_recursive ./sapling-builder/files)"
 IMAGE_ID="$(mktemp)"
-"$DOCKER" build --iidfile="$IMAGE_ID" ./sapling-builder
+"$DOCKER" build --iidfile="$IMAGE_ID" ./sapling-builder \
+	  --build-arg=files_cachebust=$FILES_CACHEBUST
 "$DOCKER" run -e SAPLING_RUN_TESTS="$test_flag" -v ./artifacts:/artifacts:z --rm \
 	"$(cat "$IMAGE_ID")" /run.sh "$commit"
 rm -f "$IMAGE_ID"

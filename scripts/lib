@@ -47,3 +47,8 @@ identify_github_repo() {
 		fail_with_repo_help
 	fi
 }
+
+latest_mtime_recursive() {
+	path="$1"
+	find "$path" -printf '%T@\n' | sort -nr | head -n 1
+}
