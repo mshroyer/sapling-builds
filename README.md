@@ -3,13 +3,13 @@
 
 # Sapling RPMs for Linux
 
-Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) packages for AlmaLinux 10.  x86\_64 and aarch64 are supported.
+Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) packages for AlmaLinux 10 and Fedora 44.  x86\_64 and aarch64 are supported.
 
 ## Building locally
 
 Pre-built RPMs are available as artifacts of successful [sapling workflow runs](https://github.com/mshroyer/sapling-builds/actions?query=workflow%3Asapling).
 
-Running the build locally requires either docker or podman.  Clone the repo and run:
+Running the build locally requires either podman or docker.  Clone the repo and run:
 
 ```sh
 ./scripts/sapling-build.sh      # Build the RPM
@@ -24,23 +24,37 @@ Pass `-t` to additionally run Sapling's `.t` suite after building:
 
 If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
 
-The container's architecture determines which architecture Sapling is built for; the build script does not cross-compile.  If you're building on an aarch64 Mac and want to produce an x86\_64 package, and you're using docker, you can run the container in Rosetta with:
+The container's machine architecture determines which architecture Sapling is built for; the build script itself does not cross-compile.  If you're building on an aarch64 Mac and want to produce an x86\_64 package when using docker, you can run the container under Rosetta with:
 
-```
+```sh
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 ./scripts/sapling-build.sh
 ./scripts/sapling-smoketest.sh
 ```
+
+Alternate target distributions can be given with the `-d` flag:
+
+```sh
+./scripts/sapling-build.sh -d fc44
+./scripts/sapling-smoketest.sh -d fc44
+```
+
+The currently supported distributions are:
+
+| Tag            | Distribution   | Architecture     |
+|----------------|----------------|------------------|
+| el10 (default) | AlmaLinux 10   | x86\_64, aarch64 |
+| fc44           | Fedora Core 44 | x86\_64, aarch64 |
 
 ## Details
 
 There are official Sapling [tarballs](https://github.com/facebook/sapling/releases) built on manylinux, so as to target most x86\_64 or aarch64 Linux distros.  These are great to have, but:
 
 1. They're released infrequently (currently ~quarterly).
-2. For maximum compatibility they bundle their own copies of libpython, libcurl, and libssl instead of relying on system packages.
+2. For maximum compatibility they bundle their own copies of libpython, libcurl, and libssl instead of linking in system packages.
 3. Because of the combination of 1 and 2, using these binary releases means running code that could be missing important security updates.
 
-This repo is an attempt to get regular AlmaLinux builds of Sapling that dynamically link to those dependencies that are available as system libraries, packaged as RPMs for convenience.
+This repo is an attempt to get regular Linux builds of Sapling that dynamically link to those dependencies that are available as system libraries, packaged as RPMs for convenience.
 
 ## Special dependencies
 
