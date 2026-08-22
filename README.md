@@ -12,14 +12,14 @@ Pre-built RPMs are available as artifacts of successful [sapling workflow runs](
 Running the build locally requires either docker or podman.  Clone the repo and run:
 
 ```sh
-./scripts/build-sapling.sh  # Build the RPM
-./scripts/try-sapling.sh    # Check that it installs and runs in a minimal container
+./scripts/sapling-build.sh      # Build the RPM
+./scripts/sapling-smoketest.sh  # Check that it installs and runs in a minimal container
 ```
 
-Pass `-t` to additionally run Sapling's `.t` suite against the build:
+Pass `-t` to additionally run Sapling's `.t` suite after building:
 
 ```sh
-./scripts/build-sapling.sh -t
+./scripts/sapling-build.sh -t
 ```
 
 If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
@@ -28,8 +28,8 @@ The container's architecture determines which architecture Sapling is built for;
 
 ```
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
-./scripts/build-sapling.sh
-./scripts/try-sapling.sh
+./scripts/sapling-build.sh
+./scripts/sapling-smoketest.sh
 ```
 
 ## Details

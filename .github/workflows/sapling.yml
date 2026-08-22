@@ -24,13 +24,13 @@ jobs:
       # - name: Fetch fbthrift
       #   env:
       #     GH_TOKEN: ${{ github.token }}
-      #   run: ./scripts/fetch-fbthrift.sh
+      #   run: ./scripts/fbthrift-fetch.sh
 
       - name: Build sapling RPM and run tests
-        run: ./scripts/build-sapling.sh -t
+        run: ./scripts/sapling-build.sh -t
 
       - name: Try sapling RPM
-        run: ./scripts/try-sapling.sh
+        run: ./scripts/sapling-smoketest.sh
 
       - name: Get artifact name
         id: artifact_name
