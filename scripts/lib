@@ -50,7 +50,7 @@ identify_github_repo() {
 
 latest_mtime_recursive() {
 	path="$1"
-	find "$path" -printf '%T@\n' | sort -nr | head -n 1
+	find "$path" -print0 | xargs -0I{} date -r {} '+%s' | sort -nr | head -n 1
 }
 
 # Given a path to a distro-specific container, mirrors the container's
