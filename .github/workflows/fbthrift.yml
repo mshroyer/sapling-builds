@@ -24,8 +24,14 @@ jobs:
       - name: Build fbthrift tarball
         run: ./scripts/fbthrift-build.sh
 
-      - name: Try fbthrift tarball
+      - name: Try fbthrift tarball: el10
         run: ./scripts/fbthrift-smoketest.sh
+
+      - name: Try fbthrift tarball: fc44
+        run: ./scripts/fbthrift-smoketest.sh -d fc44
+
+      - name: Try fbthrift tarball: ub2604
+        run: ./scripts/fbthrift-smoketest.sh -d ub2604
 
       - name: Get artifact name
         id: artifact_name
