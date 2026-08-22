@@ -43,11 +43,7 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 # podman gets unhappy when I try to build an image that references files from
 # a parent directory, so let's copy them into the Dockerfile's directory
 # before building.
-FILES="./sapling-builder/$distro/files"
-if [ -d "$FILES" ]; then
-	rm -rf "$FILES"
-fi
-cp -prl ./sapling-builder/files "$FILES"
+mirror_distro_files "./sapling-builder/$distro"
 
 # # Identify the latest fbthrift tarball in the artifacts directory.  This could
 # # be either one that was built locally using build-fbthrift.sh, or an artifact

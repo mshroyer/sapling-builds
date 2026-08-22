@@ -52,3 +52,16 @@ latest_mtime_recursive() {
 	path="$1"
 	find "$path" -printf '%T@\n' | sort -nr | head -n 1
 }
+
+# Given a path to a distro-specific container, mirrors the container's
+# distro-agnostic files subdirectory into the distro-specific directory.  We
+# do this because we want to share a uniform files directory across
+# distributions in order to simplify maintenance, but podman gets testy if we
+# try to include files from outside the container directory.
+mirror_distro_files() (
+	cd "$1"
+	if [ -d files ]; then
+		rm -rf files
+	fi
+	cp -prl ../files files
+)
