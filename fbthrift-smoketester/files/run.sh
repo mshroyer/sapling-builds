@@ -2,7 +2,7 @@
 
 set -e
 
-TARBALL="$(printf '%s\n' /artifacts/fbthrift-*.el10.$(uname -m).tar.xz | sort | tail -n1)"
+TARBALL="$(printf '%s\n' /artifacts/fbthrift-*.$(uname -m).tar.xz | sort | tail -n1)"
 if [ ! -f "$TARBALL" ]; then
 	echo "No fbthrift build found in artifacts/!" >&2
 	exit 1
