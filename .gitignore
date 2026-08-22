@@ -1,3 +1,4 @@
 sapling-builder/files/fbthrift.tar.xz
 sapling-builder/*/files
 sapling-smoketester/*/files
+fbthrift-smoketester/*/files
