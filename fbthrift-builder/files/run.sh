@@ -67,4 +67,5 @@ cp -ar "$INSTALLED/fbthrift${PREFIX}/include" "$PREFIX/include"
 cp /fbthrift/LICENSE "$PREFIX/"
 
 FILENAME="fbthrift-$(date +%Y%m%d.%H%M%S).git${HASH}.$(uname -m).tar.xz"
+echo "Saving artifact ${FILENAME}..."
 tar -cJf "/artifacts/${FILENAME}" "$PREFIX"
