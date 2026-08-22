@@ -22,8 +22,8 @@ Unofficial build of the Sapling source control manager.
 
 %install
 rm -rf %{buildroot}
-install -Dm0755 sl %{buildroot}%{_bindir}/sl
-install -Dm0644 isl-dist.tar.xz %{buildroot}/usr/lib/sapling/isl-dist.tar.xz
+install -Dm0755 %{_topdir}/BUILD/sl %{buildroot}%{_bindir}/sl
+install -Dm0644 %{_topdir}/BUILD/isl-dist.tar.xz %{buildroot}/usr/lib/sapling/isl-dist.tar.xz
 
 %files
 %{_bindir}/sl
