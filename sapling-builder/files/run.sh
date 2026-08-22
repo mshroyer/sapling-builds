@@ -79,6 +79,10 @@ TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 SAPLING_VERSION="0.2-${TIMESTAMP}_${GIT_HASH}"
 export SAPLING_VERSION
 
+# Fedora Core 44 build fails without this:
+CARGO_MANIFEST_DIR=/sapling/eden/scm/exec/hgmain
+export CARGO_MANIFEST_DIR
+
 cd eden/scm
 make oss
 
