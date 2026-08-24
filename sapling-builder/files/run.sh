@@ -74,9 +74,9 @@ done
 PATH="$PATH:$HOME/.cargo/bin"
 export PATH
 
-GIT_HASH="$(git rev-parse --short=12 HEAD)"
-TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
-SAPLING_VERSION="0.2-${TIMESTAMP}_${GIT_HASH}"
+GIT_HASH="$(git rev-parse --short=8 HEAD)"
+TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
+SAPLING_VERSION="0.2.${TIMESTAMP}+${GIT_HASH}"
 export SAPLING_VERSION
 
 # Fedora Core 44 build fails without this:
