@@ -1,13 +1,14 @@
 #!/bin/sh
 
-# Build a fresh Sapling RPM for AlmaLinux 10.
+# Build a fresh Sapling package: an RPM for AlmaLinux 10 by default, or an
+# RPM or DEB for another distribution given with -d.
 #
 # Builds from main in https://github.com/facebook/sapling, or from a specific
 # commmit if one as given as an optional argument.  Requires an existing build
 # of fbthrift in ./artifacts as a prerequisite.
 #
-# With --test, also runs Sapling's .t suite against the build, after the RPM
-# has been written out.  That roughly doubles the time this takes.
+# With --test, also runs Sapling's .t suite against the build, after the
+# package has been written out.  That roughly doubles the time this takes.
 
 set -e
 

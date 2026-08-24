@@ -2,13 +2,14 @@
 
 set -e
 
-RPM="$(ls -1 -t /artifacts/sapling-*.${DISTRO_TAG}.$(uname -m).rpm 2>/dev/null | head -n1)"
-if [ ! -f "$RPM" ]; then
+PKG="$(ls -1 -t /artifacts/sapling-*.${DISTRO_TAG}.$(uname -m).rpm \
+	/artifacts/sapling-*.${DISTRO_TAG}.$(uname -m).deb 2>/dev/null | head -n1)"
+if [ ! -f "$PKG" ]; then
 	echo "No sapling build found in artifacts/!" >&2
 	exit 1
 fi
 
-echo "Checking sapling build: ${RPM}"
+echo "Checking sapling build: ${PKG}"
 
 try_sl() {
 	echo ""
@@ -23,7 +24,16 @@ try_sl() {
 	echo "Success!"
 }
 
-dnf install -y "$RPM"
+case "$PKG" in
+	*.deb)
+		apt update
+		apt install -y "$PKG"
+		;;
+
+	*)
+		dnf install -y "$PKG"
+		;;
+esac
 
 try_sl --version
 try_sl clone https://github.com/mshroyer/sapling-builds

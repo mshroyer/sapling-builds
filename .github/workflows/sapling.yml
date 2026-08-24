@@ -46,3 +46,37 @@ jobs:
         with:
           name: ${{ steps.artifact_name.outputs.name }}
           path: artifacts/sapling-*.rpm
+
+  sapling-ub2604:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-26.04
+            arch: amd64
+          - os: ubuntu-26.04-arm
+            arch: arm64
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build sapling DEB
+        run: ./scripts/sapling-build.sh -d ub2604
+
+      - name: Try sapling DEB
+        run: ./scripts/sapling-smoketest.sh -d ub2604
+
+      - name: Get artifact name
+        id: artifact_name
+        run: |
+          set -e
+
+          name="$(basename "$(find ./artifacts -name '*.deb' | head -n1)")"
+          name="${name%.deb}"
+          echo "name=$name" >>"$GITHUB_OUTPUT"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.artifact_name.outputs.name }}
+          path: artifacts/sapling-*.deb
