@@ -6,7 +6,7 @@ diff --git a/eden/scm/sapling/util.py b/eden/scm/sapling/util.py
  
  
 +VERSION_PATTERN = remod.compile(
-+    r"0\.2\.(?P<date>\d+)-(?P<time>\d+)\+(?P<hash>[0-9a-f]+)(?:\+b(?P<builddate>\d+))?"
++    r"0\.2\.(?P<date>\d+)-(?P<time>\d+)\+(?P<hash>[0-9a-f]+)(?:-b(?P<builddate>\d+))?"
 +)
 +
 +
