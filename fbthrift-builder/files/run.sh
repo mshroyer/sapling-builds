@@ -26,7 +26,9 @@ cd fbthrift
 git reset --hard HEAD
 
 git checkout "$commit"
-HASH="$(git rev-parse HEAD | head -c8)"
+GIT_HASH="$(git rev-parse --short=8 HEAD)"
+GIT_DATE="$(env TZ=UTC git log -1 --format=%cd --date=format-local:%Y%m%d)"
+GIT_TIME="$(env TZ=UTC git log -1 --format=%cd --date=format-local:%H%M%S)"
 for patch in /patches/fbthrift*.patch; do
 	if [ -f "$patch" ]; then
 		printf "\nApplying %s...\n" "$patch"
@@ -66,6 +68,6 @@ find "$PREFIX" -type f | xargs -I{} strip {}
 cp -ar "$INSTALLED/fbthrift${PREFIX}/include" "$PREFIX/include"
 cp /fbthrift/LICENSE "$PREFIX/"
 
-FILENAME="fbthrift-$(date +%Y%m%d_%H%M%S)+${HASH}.$(uname -m).tar.xz"
+FILENAME="fbthrift-${GIT_DATE}_${GIT_TIME}+${GIT_HASH}.$(uname -m).tar.xz"
 echo "Saving artifact ${FILENAME}..."
 tar -cJf "/artifacts/${FILENAME}" "$PREFIX"
