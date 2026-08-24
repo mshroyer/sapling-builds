@@ -1,13 +1,11 @@
 [![sapling](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml)
 [![fbthrift](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml)
 
-# Sapling RPMs for Linux
+# Sapling RPM builds for Linux
 
-Unofficial (and currently experimental) podman/docker containers and workflows for building [Sapling](https://sapling-scm.com) packages for AlmaLinux 10 and Fedora 44.  x86\_64 and aarch64 are supported.
+Unofficial (and currently experimental) podman/docker containers for building [Sapling](https://sapling-scm.com) packages for AlmaLinux 10 and Fedora 44.  x86\_64 and aarch64 are supported.
 
 ## Building locally
-
-Pre-built RPMs are available as artifacts of successful [sapling workflow runs](https://github.com/mshroyer/sapling-builds/actions?query=workflow%3Asapling).
 
 Running the build locally requires either podman or docker.  Clone the repo and run:
 
@@ -16,13 +14,19 @@ Running the build locally requires either podman or docker.  Clone the repo and 
 ./scripts/sapling-smoketest.sh  # Check that it installs and runs in a minimal container
 ```
 
-Pass `-t` to additionally run Sapling's `.t` suite after building:
+Pass `-t` to additionally run Sapling's `.t` test suite after building:
 
 ```sh
 ./scripts/sapling-build.sh -t
 ```
 
 If any tests fail the script will exit with a nonzero status, but an RPM will still have been created.
+
+A specific Sapling commit can be built by providing its git commit hash as an argument.  For example, to build the version of Sapling used for the official 2026-08-11 release:
+
+```sh
+./scripts/sapling-build.sh -t 8fb02b32
+```
 
 The container's machine architecture determines which architecture Sapling is built for; the build script itself does not cross-compile.  If you're building on an aarch64 Mac and want to produce an x86\_64 package when using docker, you can run the container under Rosetta with:
 
@@ -54,17 +58,31 @@ There are official Sapling [tarballs](https://github.com/facebook/sapling/releas
 2. For maximum compatibility they bundle their own copies of libpython, libcurl, and libssl instead of linking in system packages.
 3. Because of the combination of 1 and 2, using these binary releases means running code that could be missing important security updates.
 
-This repo is an attempt to get regular Linux builds of Sapling that dynamically link to those dependencies that are available as system libraries, packaged as RPMs for convenience.
+This repo is an attempt to get Linux builds of Sapling that dynamically link to those dependencies that are available as system libraries, packaged as RPMs for convenience.
 
-## Special dependencies
+### Version strings
 
-### libssl
+These builds mimic the version string format used by official Sapling releases.  They contain the components:
+
+```
+Sapling 0.2.${commit_date}-${commit_time}+${git_hash}
+```
+
+where `commit_date` and `commit_time` refer to the commit timestamp of the Sapling git commit used for the build.  If the build was created at a later date than the commit date, then an additional build date suffix will be appended:
+
+```
+Sapling 0.2.${commit_date}-${commit_time}+${git_hash}-${build_date}
+```
+
+### Special dependencies
+
+#### libssl
 
 Upstream Sapling's http-client crate enables the `static-ssl` feature on its curl dependency, causing OpenSSL to be statically linked into the binary.  If built on a host with libcurl-devel, however, the system libcurl is dynamically linked, transitively pulling in an additional dynamic dependency on libssl anyway.  I'm not sure this actually causes any issues in practice, but it's not ideal.
 
 My original approach was to go maximally statically-linked by building in a container without libcurl, which causes the curl crate to build and statically link its own copy of libcurl; this resulted in no system dependency on either libcurl or libssl.  But as mentioned above, I'd rather rely on system curl and OpenSSL so that security updates can be applied without rebuilding Sapling.  Currently we patch Sapling's http-client to not statically link libssl.  This yields a slightly smaller RPM at the cost of a larger dependency tree.
 
-### fbthrift
+#### fbthrift
 
 Prior to [a commit in December 2025](https://github.com/facebook/sapling/commit/3255f860ffee22975e37278475955a8ba6f398c6), building Sapling required a prexisting thrift1 binary from [facebook/fbthrift](https://github.com/facebook/fbthrift/) to be available on the `$PATH`.  As of 2026-01-12 it seemed this dependency could be safely removed, possibly making the entire fbthrift workflow obsolete.
 
@@ -72,9 +90,13 @@ However, [a later commit in February 2026](https://github.com/facebook/sapling/c
 
 ## Caveats
 
-Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
+Because the upstream test suites aren't fully able to run against Sapling's public builds, and because even the subset of them that can run on the public builds are often broken on main, it's difficult to be confident that any given Sapling commit is good.  The safest approach to using these build scripts, then, may be to identify the Sapling commit hash corresponding to the [latest official release](https://github.com/facebook/sapling/releases/) and build that:
 
-The workflow runs most of Sapling's `.t` tests, but tests that depend on Meta-internal features are blacklisted, as are a few that are flaky.  Cargo and Python tests are not currently run.
+```sh
+./scripts/sapling-build.sh -t ${known_good_hash}
+```
+
+Builds are non-hermetic and non-reproducible; even rebuilding artifacts at a specific commit hash may produce different results at different points in time.
 
 ## The churn
 
