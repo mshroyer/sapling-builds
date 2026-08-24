@@ -1,0 +1,12 @@
+diff --git a/eden/scm/lib/commands/commands/cmdversion/src/lib.rs b/eden/scm/lib/commands/commands/cmdversion/src/lib.rs
+--- a/eden/scm/lib/commands/commands/cmdversion/src/lib.rs
++++ b/eden/scm/lib/commands/commands/cmdversion/src/lib.rs
+@@ -18,7 +18,7 @@
+     io.write(format!("{} {}\n", id.product_name(), ::version::VERSION))?;
+ 
+     if !ctx.global_opts().quiet {
+-        io.write_err("(see https://sapling-scm.com/ for more information)\n")?;
++        io.write_err("(see https://github.com/mshroyer/sapling-builds/ for more information)\n")?;
+ 
+         #[cfg(feature = "fb")]
+         io.write_err(fb::VERSION_TEXT)?;
