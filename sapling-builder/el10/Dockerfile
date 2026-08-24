@@ -23,7 +23,7 @@ USER build
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh && \
     sh /tmp/rustup.sh --profile minimal -y && \
     rm /tmp/rustup.sh
-ENV PATH="${PATH}:${HOME}/.cargo/bin"
+ENV PATH="${PATH}:/home/build/.cargo/bin"
 
 ARG files_cachebust=1
 COPY files/ /
