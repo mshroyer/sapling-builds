@@ -68,10 +68,10 @@ These builds mimic the version string format used by official Sapling releases. 
 Sapling 0.2.${commit_date}-${commit_time}+${git_hash}
 ```
 
-where `commit_date` and `commit_time` refer to the commit timestamp of the Sapling git commit used for the build.  If the build was created at a later date than the commit date, then an additional build date suffix will be appended:
+where `commit_date` and `commit_time` refer to the timestamp of the Sapling git commit used for the build.  If the build was created at a later date than the commit date, then an additional build date suffix will be appended:
 
 ```
-Sapling 0.2.${commit_date}-${commit_time}+${git_hash}-${build_date}
+Sapling 0.2.${commit_date}-${commit_time}+${git_hash}-b${build_date}
 ```
 
 ### Special dependencies
