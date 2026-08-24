@@ -2,7 +2,7 @@
 
 set -e
 
-RPM="$(printf '%s\n' /artifacts/sapling-*.${DISTRO_TAG}.$(uname -m).rpm | sort | tail -n1)"
+RPM="$(ls -1 -t /artifacts/sapling-*.${DISTRO_TAG}.$(uname -m).rpm 2>/dev/null | head -n1)"
 if [ ! -f "$RPM" ]; then
 	echo "No sapling build found in artifacts/!" >&2
 	exit 1
