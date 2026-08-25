@@ -95,7 +95,13 @@ make oss
 if [ ! -d "$HOME/artifacts" ]; then
 	mkdir "$HOME/artifacts"
 fi
-/make_rpm.py --out "$HOME/artifacts"
+# Package the build as an RPM by default, or as a DEB if the builder image
+# says so (Ubuntu).
+if [ "$PACKAGE_FORMAT" = "deb" ]; then
+	/make_deb.py --out "$HOME/artifacts"
+else
+	/make_rpm.py --out "$HOME/artifacts"
+fi
 for f in "$HOME/artifacts"/*; do
 	if [ -f "$f" ]; then
 		echo "Copying $f into /artifacts/"
@@ -103,7 +109,8 @@ for f in "$HOME/artifacts"/*; do
 	fi
 done
 
-# Build the RPM before testing, so a test failure still leaves us an artifact.
+# Build the package before testing, so a test failure still leaves us an
+# artifact.
 if [ -n "$SAPLING_RUN_TESTS" ]; then
 	run_tests
 fi

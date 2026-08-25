@@ -1,16 +1,16 @@
 [![sapling](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/sapling.yml)
 [![fbthrift](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml/badge.svg)](https://github.com/mshroyer/sapling-builds/actions/workflows/fbthrift.yml)
 
-# Sapling RPM builds for Linux
+# Sapling package builds for Linux
 
-Unofficial (and currently experimental) podman/docker containers for building [Sapling](https://sapling-scm.com) packages for AlmaLinux 10 and Fedora 44.  x86\_64 and aarch64 are supported.
+Unofficial (and currently experimental) podman/docker containers for building [Sapling](https://sapling-scm.com) packages: RPMs for AlmaLinux 10 and Fedora 44, and DEBs for Ubuntu 26.04.  x86\_64 and aarch64 are supported.
 
 ## Building locally
 
 Running the build locally requires either podman or docker.  Clone the repo and run:
 
 ```sh
-./scripts/sapling-build.sh      # Build the RPM
+./scripts/sapling-build.sh      # Build the package
 ./scripts/sapling-smoketest.sh  # Check that it installs and runs in a minimal container
 ```
 
@@ -45,10 +45,13 @@ Alternate target distributions can be given with the `-d` flag:
 
 The currently supported distributions are:
 
-| Tag            | Distribution   | Architecture     |
-|----------------|----------------|------------------|
-| el10 (default) | AlmaLinux 10   | x86\_64, aarch64 |
-| fc44           | Fedora Core 44 | x86\_64, aarch64 |
+| Tag            | Distribution   | Package format | Architecture     |
+|----------------|----------------|----------------|------------------|
+| el10 (default) | AlmaLinux 10   | RPM            | x86\_64, aarch64 |
+| fc44           | Fedora Core 44 | RPM            | x86\_64, aarch64 |
+| ub2604         | Ubuntu 26.04   | DEB            | x86\_64, aarch64 |
+
+Note that the ub2604 DEB depends on `libpython3.12` from the [deadsnakes PPA](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa), which must be enabled to install the package; see the Python section below.
 
 ## Details
 
@@ -58,7 +61,7 @@ There are official Sapling [tarballs](https://github.com/facebook/sapling/releas
 2. For maximum compatibility they bundle their own copies of libpython, libcurl, and libssl instead of linking in system packages.
 3. Because of the combination of 1 and 2, using these binary releases means running code that could be missing important security updates.
 
-This repo is an attempt to get Linux builds of Sapling that dynamically link to those dependencies that are available as system libraries, packaged as RPMs for convenience.
+This repo is an attempt to get Linux builds of Sapling that dynamically link to those dependencies that are available as system libraries, packaged as RPMs and DEBs for convenience.
 
 ### Version strings
 
@@ -81,6 +84,10 @@ Sapling 0.2.${commit_date}-${commit_time}+${git_hash}-b${build_date}
 Upstream Sapling's http-client crate enables the `static-ssl` feature on its curl dependency, causing OpenSSL to be statically linked into the binary.  If built on a host with libcurl-devel, however, the system libcurl is dynamically linked, transitively pulling in an additional dynamic dependency on libssl anyway.  I'm not sure this actually causes any issues in practice, but it's not ideal.
 
 My original approach was to go maximally statically-linked by building in a container without libcurl, which causes the curl crate to build and statically link its own copy of libcurl; this resulted in no system dependency on either libcurl or libssl.  But as mentioned above, I'd rather rely on system curl and OpenSSL so that security updates can be applied without rebuilding Sapling.  Currently we patch Sapling's http-client to not statically link libssl.  This yields a slightly smaller RPM at the cost of a larger dependency tree.
+
+#### Python
+
+Sapling currently builds against Python 3.12 at the newest (see the version preference list in its `contrib/pick_python.py`); under Python 3.14 its python-modules codegen crashes.  AlmaLinux 10 ships 3.12 as its default python3, and the fc44 builder pins Fedora's python3.12 package, but Ubuntu 26.04 only packages Python 3.14.  The ub2604 builder therefore installs python3.12 from the deadsnakes PPA, and the resulting DEB depends on deadsnakes' `libpython3.12` at runtime.
 
 #### fbthrift
 
