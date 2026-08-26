@@ -1,4 +1,4 @@
-sapling-builder/files/fbthrift.tar.xz
-sapling-builder/*/files
-sapling-smoketester/*/files
-fbthrift-smoketester/*/files
+containers/sapling-builder/files/fbthrift.tar.xz
+containers/sapling-builder/*/files
+containers/sapling-smoketester/*/files
+containers/fbthrift-smoketester/*/files

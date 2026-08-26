@@ -22,11 +22,11 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 . "$SCRIPTS/lib"
 
 
-mirror_distro_files "./fbthrift-smoketester/$distro"
+mirror_distro_files "./containers/fbthrift-smoketester/$distro"
 
-FILES_CACHEBUST="$(latest_mtime_recursive ./fbthrift-smoketester/files)"
+FILES_CACHEBUST="$(latest_mtime_recursive ./containers/fbthrift-smoketester/files)"
 IMAGE_ID="$(mktemp)"
-"$DOCKER" build --iidfile="$IMAGE_ID" "./fbthrift-smoketester/$distro" \
+"$DOCKER" build --iidfile="$IMAGE_ID" "./containers/fbthrift-smoketester/$distro" \
 	  --build-arg=files_cachebust=$FILES_CACHEBUST
 "$DOCKER" run -v ./artifacts:/artifacts:z,ro --rm "$(cat "$IMAGE_ID")"
 rm -f "$IMAGE_ID"

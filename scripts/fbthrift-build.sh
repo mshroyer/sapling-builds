@@ -14,7 +14,7 @@ fi
 SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 . "$SCRIPTS/lib"
 
-FILES_CACHEBUST="$(latest_mtime_recursive ./fbthrift-builder/files)"
+FILES_CACHEBUST="$(latest_mtime_recursive ./containers/fbthrift-builder/files)"
 IMAGE_ID="$(mktemp)"
 "$DOCKER" build --iidfile="$IMAGE_ID" ./fbthrift-builder \
 	  --build-arg=files_cachebust=$FILES_CACHEBUST

@@ -44,7 +44,7 @@ SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 # podman gets unhappy when I try to build an image that references files from
 # a parent directory, so let's copy them into the Dockerfile's directory
 # before building.
-mirror_distro_files "./sapling-builder/$distro"
+mirror_distro_files "./containers/sapling-builder/$distro"
 
 # # Identify the latest fbthrift tarball in the artifacts directory.  This could
 # # be either one that was built locally using build-fbthrift.sh, or an artifact
@@ -55,13 +55,13 @@ mirror_distro_files "./sapling-builder/$distro"
 # 	exit 1
 # fi
 # echo "Using fbthrift from ${LATEST_FBTHRIFT}"
-# rm -f sapling-builder/files/fbthrift.tar.xz
-# ln "$LATEST_FBTHRIFT" sapling-builder/files/fbthrift.tar.xz
+# rm -f containers/sapling-builder/files/fbthrift.tar.xz
+# ln "$LATEST_FBTHRIFT" containers/sapling-builder/files/fbthrift.tar.xz
 
 # Build and run the sapling-builder container.
-FILES_CACHEBUST="$(latest_mtime_recursive ./sapling-builder/files)"
+FILES_CACHEBUST="$(latest_mtime_recursive ./containers/sapling-builder/files)"
 IMAGE_ID="$(mktemp)"
-"$DOCKER" build --iidfile="$IMAGE_ID" "./sapling-builder/$distro" \
+"$DOCKER" build --iidfile="$IMAGE_ID" "./containers/sapling-builder/$distro" \
 	  --build-arg=files_cachebust=$FILES_CACHEBUST
 "$DOCKER" run -e SAPLING_RUN_TESTS="$test_flag" -v ./artifacts:/artifacts:z --rm \
 	"$(cat "$IMAGE_ID")" /run.sh "$commit"
