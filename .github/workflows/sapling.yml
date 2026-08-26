@@ -1,6 +1,10 @@
 name: sapling
 on:
   workflow_dispatch:
+    inputs:
+      commit:
+        description: 'The Sapling commit to build'
+        required: false
   schedule:
     - cron: "18 22 * * *"
 
@@ -24,7 +28,10 @@ jobs:
       #   run: ./scripts/fbthrift-fetch.sh
 
       - name: Build sapling package
-        run: ./scripts/sapling-build.sh -d ${{ matrix.distro }}
+        run: |
+          ./scripts/sapling-build.sh \
+              -d ${{ matrix.distro }} \
+              ${{ inputs.commit || 'main' }}
 
       - name: Smoketest sapling package
         run: ./scripts/sapling-smoketest.sh -d ${{ matrix.distro }}
