@@ -41,6 +41,8 @@ fi
 SCRIPTS=$(cd "$(dirname "$0")" && pwd)
 . "$SCRIPTS/lib"
 
+create_artifacts_dir
+
 # podman gets unhappy when I try to build an image that references files from
 # a parent directory, so let's copy them into the Dockerfile's directory
 # before building.

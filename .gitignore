@@ -1,3 +1,4 @@
+artifacts/
 containers/sapling-builder/files/fbthrift.tar.xz
 containers/sapling-builder/*/files
 containers/sapling-smoketester/*/files
