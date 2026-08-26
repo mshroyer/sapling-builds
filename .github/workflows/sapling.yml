@@ -12,6 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        distro: [el10, fc44, ub2604]
         include:
           - os: ubuntu-26.04
             arch: amd64
@@ -27,18 +28,17 @@ jobs:
       #   run: ./scripts/fbthrift-fetch.sh
 
       - name: Build sapling RPM
-        run: ./scripts/sapling-build.sh
+        run: ./scripts/sapling-build.sh -d ${{ matrix.distro }}
 
       - name: Try sapling RPM
-        run: ./scripts/sapling-smoketest.sh
+        run: ./scripts/sapling-smoketest.sh -d ${{ matrix.distro }}
 
       - name: Get artifact name
         id: artifact_name
         run: |
           set -e
 
-          name="$(basename "$(find ./artifacts -name '*.rpm' | head -n1)")"
-          name="${name%.rpm}"
+          name="$(basename "$(find ./artifacts -name '*.rpm' -or -name '*.deb' | head -n1)")"
           echo "name=$name" >>"$GITHUB_OUTPUT"
 
       - name: Upload artifacts
