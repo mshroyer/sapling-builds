@@ -14,7 +14,7 @@ echo "Checking sapling build: ${PKG}"
 try_sl() {
 	echo ""
 	echo "Trying \`sl $@\`..."
-	sl $@ >out.txt 2>&1
+	sl "$@" 2>&1 | tee out.txt
 
 	if [ -n "$(grep -l old-version out.txt)" ]; then
 		echo "error: sl is incorrectly outputting an old-version hint" >&2
@@ -36,6 +36,7 @@ case "$PKG" in
 esac
 
 try_sl --version
+try_sl debugpython -c 'print("Hello, world!  Python works...")'
 try_sl clone https://github.com/mshroyer/sapling-builds
 cd sapling-builds
 try_sl sl
