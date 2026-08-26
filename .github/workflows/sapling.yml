@@ -4,11 +4,12 @@ on:
     inputs:
       commit:
         description: 'Sapling commit to build'
-        required: true
+        required: false
         default: 'main'
       test:
-        description: 'Run .t tests after build?'
-        required: true
+        description: 'Run .t tests?'
+        type: boolean
+        required: false
         default: false
   schedule:
     - cron: "18 22 * * *"
