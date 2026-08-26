@@ -26,7 +26,7 @@ jobs:
       - name: Build sapling package
         run: ./scripts/sapling-build.sh -d ${{ matrix.distro }}
 
-      - name: Try sapling package
+      - name: Smoketest sapling package
         run: ./scripts/sapling-smoketest.sh -d ${{ matrix.distro }}
 
       - name: Get artifact name
