@@ -4,9 +4,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Base system dependencies
 RUN apt update
-RUN apt install -y build-essential ca-certificates clang curl git libaio1t64 \
-    libclang-dev libcurl4-openssl-dev locales nodejs perl pkg-config python3 \
-    sudo xz-utils
+RUN apt install -y bsdextrautils build-essential ca-certificates clang curl git \
+    libaio1t64 libclang-dev libcurl4-openssl-dev locales nodejs perl pkg-config \
+    python3 sudo xz-utils
 
 # Sapling's build supports Python 3.12 at the newest (see its
 # contrib/pick_python.py), but Ubuntu 26.04 only packages Python 3.14, under
