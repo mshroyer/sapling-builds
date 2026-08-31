@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update
 RUN apt install -y bsdextrautils build-essential ca-certificates clang curl git \
     libaio1t64 libclang-dev libcurl4-openssl-dev locales nodejs perl pkg-config \
-    python3 sudo xz-utils
+    sudo unzip xz-utils
 
 # Sapling's build supports Python 3.12 at the newest (see its
 # contrib/pick_python.py), but Ubuntu 26.04 only packages Python 3.14, under
@@ -14,6 +14,7 @@ RUN apt install -y bsdextrautils build-essential ca-certificates clang curl git 
 # deadsnakes PPA instead; pick_python.py will prefer it automatically.
 RUN apt install -y software-properties-common && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt update && \
     apt install -y python3.12-dev
 
 # The counterpart of glibc-langpack-en on the RPM distros.
