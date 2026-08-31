@@ -37,7 +37,7 @@ jobs:
         run: |
           ./scripts/sapling-build.sh \
               -d ${{ matrix.distro }} \
-              ${{ case(inputs.test, '-t', '') }} \
+              ${{ inputs.test && '-t' || '' }} \
               ${{ inputs.commit || 'main' }}
 
       - name: Smoketest sapling package
