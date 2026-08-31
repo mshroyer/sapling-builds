@@ -11,6 +11,18 @@ on:
         type: boolean
         required: false
         default: false
+  workflow_call:
+    inputs:
+      commit:
+        description: 'Sapling commit to build'
+        type: string
+        required: false
+        default: 'main'
+      test:
+        description: 'Run .t tests?'
+        type: boolean
+        required: false
+        default: false
   schedule:
     - cron: "18 22 * * *"
 
