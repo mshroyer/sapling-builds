@@ -5,6 +5,10 @@
 
 Unofficial (and currently experimental) podman/docker containers for building [Sapling](https://sapling-scm.com) packages: RPMs for AlmaLinux 10 and Fedora 44, and DEBs for Ubuntu 26.04.  x86\_64 and aarch64 are supported.
 
+## Releases
+
+The [release page](https://github.com/mshroyer/sapling-builds/releases/) has RPM and DEB packages built against the same commit as the [official Sapling releases](https://github.com/facebook/sapling/releases/).  These are created by [manually running the release workflow](./docs/actions.md) for each new official release.
+
 ## Building locally
 
 Running the build locally requires either podman or docker.  Clone the repo and run:
