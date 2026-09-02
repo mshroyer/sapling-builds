@@ -87,9 +87,11 @@ jobs:
           set -e
 
           cat >notes.md <<EOF
-          Unofficial Sapling packages built from [facebook/sapling@${SAPLING_COMMIT}](https://github.com/facebook/sapling/commit/${SAPLING_COMMIT}), with Sapling's \`.t\` suite run against each build.  See [the workflow run](${RUN_URL}) for build and test logs.
+          Unofficial Sapling packages built from [facebook/sapling@${SAPLING_COMMIT}](https://github.com/facebook/sapling/commit/${SAPLING_COMMIT}).  See [the workflow run](${RUN_URL}) for build and test logs.
 
           The Ubuntu 26.04 DEB depends on \`libpython3.12\` from the [deadsnakes PPA](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa), which must be enabled before installing it.
+
+          TODO: Insert link to corresponding official release.
           EOF
 
           gh release create "$VERSION" \
