@@ -18,7 +18,7 @@ create_artifacts_dir
 
 FILES_CACHEBUST="$(latest_mtime_recursive ./containers/fbthrift-builder/files)"
 IMAGE_ID="$(mktemp)"
-"$DOCKER" build --iidfile="$IMAGE_ID" ./fbthrift-builder \
+"$DOCKER" build --iidfile="$IMAGE_ID" ./containers/fbthrift-builder \
 	  --build-arg=files_cachebust=$FILES_CACHEBUST
 "$DOCKER" run -v ./artifacts:/artifacts:z --rm "$(cat "$IMAGE_ID")" /run.sh "$commit"
 rm -f "$IMAGE_ID"
