@@ -1,8 +1,7 @@
 diff --git a/eden/scm/sapling/commands/isl.py b/eden/scm/sapling/commands/isl.py
-index 832e71fd5e4..09a1301841b 100644
 --- a/eden/scm/sapling/commands/isl.py
 +++ b/eden/scm/sapling/commands/isl.py
-@@ -241,6 +241,7 @@ def get_isl_args_cwd(ui) -> Tuple[List[str], str]:
+@@ -303,6 +303,7 @@
      # find "isl-dist.tar.xz"
      isl_dist_name = "isl-dist.tar.xz"
      candidates = ui.configlist("web", "isl-dist-path") + [
