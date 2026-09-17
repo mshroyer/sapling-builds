@@ -67,11 +67,11 @@ export_patches() {
 
 	rm -f "$patch_dir"/*.patch
 
-	hashes="$(sl log -r 'branch(.) and not public()' --template "{node}\n")"
+	hashes="$(sl log -r 'ancestors(.) and not public()' --template "{node}\n")"
 	for hash in $hashes; do
 		desc="$(sl log -r "$hash" --template "{desc}\n")"
 		echo "Exporting: $desc" >&2
-		sl diff -r $hash >"$patch_dir/$desc.patch"
+		sl diff -c $hash >"$patch_dir/$desc.patch"
 	done
 }
 
