@@ -1,0 +1,51 @@
+diff --git a/eden/scm/lib/io/Cargo.toml b/eden/scm/lib/io/Cargo.toml
+--- a/eden/scm/lib/io/Cargo.toml
++++ b/eden/scm/lib/io/Cargo.toml
+@@ -22,7 +22,7 @@
+ sapling-time-interval = { version = "0.1.0", path = "../util/time-interval" }
+ terminal_size = "0.4.4"
+ termwiz = { version = "0.23.3", default-features = false }
+-wezterm-dynamic = { default-features = false }
++wezterm-dynamic = { version = "0.2.1", default-features = false }
+ 
+ [target.'cfg(target_os = "linux")'.dependencies]
+ termios = "0.3"
+diff --git a/eden/scm/lib/io/term/style/Cargo.toml b/eden/scm/lib/io/term/style/Cargo.toml
+--- a/eden/scm/lib/io/term/style/Cargo.toml
++++ b/eden/scm/lib/io/term/style/Cargo.toml
+@@ -18,4 +18,4 @@
+ sapling-io = { version = "0.1.0", path = "../.." }
+ termwiz = { version = "0.23.3", default-features = false }
+ tracing = { version = "0.1.41", features = ["attributes", "valuable"] }
+-wezterm-dynamic = { default-features = false }
++wezterm-dynamic = { version = "0.2.1", default-features = false }
+diff --git a/eden/scm/lib/progress/render/Cargo.toml b/eden/scm/lib/progress/render/Cargo.toml
+--- a/eden/scm/lib/progress/render/Cargo.toml
++++ b/eden/scm/lib/progress/render/Cargo.toml
+@@ -20,4 +20,4 @@
+ tracing = { version = "0.1.41", features = ["attributes", "valuable"] }
+ unicode-segmentation = "1.13.3"
+ unicode-width = "0.2.2"
+-wezterm-dynamic = { default-features = false }
++wezterm-dynamic = { version = "0.2.1", default-features = false }
+diff --git a/eden/scm/lib/third-party/streampager/Cargo.toml b/eden/scm/lib/third-party/streampager/Cargo.toml
+--- a/eden/scm/lib/third-party/streampager/Cargo.toml
++++ b/eden/scm/lib/third-party/streampager/Cargo.toml
+@@ -31,7 +31,7 @@
+ unicode-segmentation = "1.13.3"
+ unicode-width = "0.2.2"
+ vec_map = "0.8"
+-wezterm-dynamic = { default-features = false }
++wezterm-dynamic = { version = "0.2.1", default-features = false }
+ 
+ [features]
+ keymap-file = []
+diff --git a/eden/scm/saplingnative/bindings/modules/pytermwiz/Cargo.toml b/eden/scm/saplingnative/bindings/modules/pytermwiz/Cargo.toml
+--- a/eden/scm/saplingnative/bindings/modules/pytermwiz/Cargo.toml
++++ b/eden/scm/saplingnative/bindings/modules/pytermwiz/Cargo.toml
+@@ -11,4 +11,4 @@
+ sapling-cpython-ext = { version = "0.1.0", path = "../../../../lib/cpython-ext" }
+ serde = { version = "1.0.229", features = ["derive", "rc"] }
+ termwiz = { version = "0.23.3", features = ["use_serde"], default-features = false }
+-wezterm-dynamic = { default-features = false }
++wezterm-dynamic = { version = "0.2.1", default-features = false }
