@@ -45,3 +45,5 @@ test-sampling.t
 # Also flaky even with retries:
 test-mutation.t
 test-hybrid-backtrace.t
+test-amend-to-executable.t
+test-worktree-git.t
